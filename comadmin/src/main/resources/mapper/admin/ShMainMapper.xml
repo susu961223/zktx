@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoshu.admin.oracle.mapper.ShMainMapper">
+	<select id="selectBdcAllList"
+		parameterType="com.xiaoshu.admin.model.ShMain"
+		resultType="com.xiaoshu.admin.model.ShMain">
+		SELECT * FROM (SELECT Q.*, ROWNUM RN FROM (select distinct f.ywh,
+		f.bdcqzh bdczh,
+		b.name querymc,
+		to_char(cast(cast(b.login_date as
+		timestamp) as date),
+		'yyyy-mm-dd hh24:mi:ss') queryrq,
+		d.qlrmc qlrmc,
+		a.zl
+		from fdcq2 f
+		join slsq a
+		on f.ywh = a.ywh
+		join h c
+		on a.bdcdyh =
+		c.bdcdyh
+		join xxch.sys_user b
+		on a.slry = b.id
+		join qlr d
+		on f.ywh=d.ywh
+		where
+		f.qszt = '1'
+		<!-- and b.name = #{querymc} -->
+		and a.slsj between
+		to_date('2019-01-26 00:00:00', 'yyyy-MM-dd
+		hh24:mi:ss') and
+		to_date('2019-12-26 23:59:59', 'yyyy-MM-dd
+		hh24:mi:ss')
+
+		<if test="ywh!=null and ywh !=''">
+			and f.ywh = #{ywh}
+		</if>
+		) Q
+
+
+		WHERE
+		ROWNUM &lt;= #{length})
+		<where>
+			RN &gt;= #{start}
+		</where>
+	</select>
+
+	<select id="findCountBdcAllList"
+		parameterType="com.xiaoshu.admin.model.ShMain"
+		resultType="java.lang.Integer">
+		select count(distinct f.ywh)
+		from fdcq2 f
+		join slsq a
+		on f.ywh = a.ywh
+		join h c
+		on a.bdcdyh = c.bdcdyh
+		join xxch.sys_user b
+		on a.slry = b.id
+		join qlr d
+		on f.ywh=d.ywh
+		<where>
+			f.qszt = '1'
+			<!-- and b.name = #{querymc} -->
+			and a.slsj between
+			to_date('2019-01-26 00:00:00', 'yyyy-MM-dd
+			hh24:mi:ss') and
+			to_date('2019-12-26 23:59:59', 'yyyy-MM-dd
+			hh24:mi:ss')
+			<if test="ywh!=null and ywh !=''">
+				and f.ywh = #{ywh}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectQsxxTS"
+		parameterType="com.xiaoshu.admin.model.ShMain"
+		resultType="com.xiaoshu.admin.model.ShMain">
+		SELECT NVL(A.YWH,' ') AS ywh,
+		NVL(A.QLLX,' ') AS qllx,
+		NVL(A.DJYY,' ') AS djyy,
+		NVL(TO_CHAR(A.DYTDMJ),' ') AS dytdmj,
+		NVL(to_char(a.fttdmj), ' ')AS fttdmj,
+		NVL(TO_CHAR(A.FTTDMJ),' ') AS
+		fttdmj, NVL(A.tdsyqr,' ') AS tdsyqr,
+		NVL(TO_CHAR(A.FDCJYJG),' ') AS fdcjyjg,
+		NVL(TO_CHAR(cast(cast(a.tdsyqssj as timestamp) as date),'yyyy-mm-dd'),' ') as tdsyqssj,
+		NVL(TO_CHAR(cast(cast(a.tdsyjssj as
+		timestamp) as date), 'yyyy-mm-dd'),' ') as tdsyjssj,
+		nvl((select q.ytmc from fwyt q where q.ytdm = a.ghyt), ' ') as ghyt,
+		nvl(a.fwxz, ' ') as fwxz,
+		nvl(a.fwjg, ' ') as fwjg,
+		nvl(A.SZC,' ')as
+		szc,
+		nvl(to_char(a.zcs), ' ') as zcs,
+		nvl(TO_CHAR(B.SCJZMJ),' ') AS
+		jzmj,
+		NVL(TO_CHAR(B.SCTNJZMJ),' ') AS zyjzmj,
+		nvl(to_char(B.SCFTJZMJ),'
+		') AS ftjzmj,
+		NVL(A.JGSJ,' ') as jgsj,
+		NVL(A.BDCQZH,' ') AS bdczh,
+		NVL(C.ZL,' ')AS zl,
+		NVL(TO_CHAR(A.DJSJ,'yyyy-mm-dd hh24:mi:ss'),' ') as
+		djsj,
+		NVL(A.FJ,' ')AS fj
+		from FDCQ2 a left join slsq c on a.ywh = c.ywh
+		left join H B
+		ON A.BDCDYH = B.BDCDYH
+		WHERE A.YWH = #{ywh} AND A.QSZT='0'
+	</select>
+
+	<select id="selectQlr"
+		parameterType="com.xiaoshu.admin.model.QlrTs"
+		resultType="com.xiaoshu.admin.model.QlrTs">
+		SELECT nvl(A.YWH,' ') as qlrywh,
+		nvl(B.BDCQZH,' ') as
+		qlrbdcqzh,
+		nvl(A.QLRMC,' ')as qlr,
+		nvl(A.QLRZJZL,' ') as zjzl,
+		nvl(A.SQRLX,' ') as qlrlx,
+		nvl(A.QLRZJH,' ') as zjhm, /*BDCLX,*/
+		nvl(A.QLRFRDH,' ') as dh,
+		nvl(A.QLRTXDZ,' ') as dz
+		FROM SQR A
+		LEFT JOIN
+		FDCQ2 B
+		ON
+		A.YWH = B.YWH
+		WHERE A.SQRLX=1 AND A.YWH =
+		#{qlrywh} AND
+		A.DJLX &lt;&gt; '112'
+	</select>
+
+	<select id="selectYwr"
+		parameterType="com.xiaoshu.admin.model.YwrTs"
+		resultType="com.xiaoshu.admin.model.YwrTs">
+		SELECT nvl(A.YWH,' ') as ywrywh,
+		nvl(B.BDCQZH,' ') as
+		ywrbdcqzh,
+		nvl(A.QLRMC,' ')as ywrqlr,
+		nvl(A.QLRZJZL,' ') as ywrzjzl,
+		nvl(A.QLRLX,' ') as ywrqlrlx,
+		nvl(A.QLRZJH,' ') as ywrzjhm, /*BDCLX,*/
+		nvl(A.QLRFRDH,' ') as ywrdh,
+		nvl(A.QLRTXDZ,' ') as ywrdz
+		FROM SQR A
+		LEFT
+		JOIN FDCQ2 B
+		ON
+		A.YWH = B.YWH
+		WHERE A.SQRLX=2 AND A.YWH
+		= #{ywrywh} AND
+		A.DJLX &lt;&gt; '112'
+	</select>
+	<select id="selectQzh"
+		parameterType="com.xiaoshu.admin.model.YwrTs"
+		resultType="com.xiaoshu.admin.model.YwrTs">
+		SELECT BDCQZH AS ywrbdcqzh FROM FDCQ2 WHERE BDCDYH = (SELECT DISTINCT
+		A.BDCDYH
+		FROM FDCQ2 A
+		LEFT JOIN SQR C
+		ON (A.YWH = C.YWH and C.SQRLX = 2)
+		LEFT JOIN QLR B
+		ON (C.QLRZJH = B.ZJH AND B.BDCDYH = A.BDCDYH)
+		WHERE A.QSZT = 0
+		AND A.YWH = #{ywrywh})
+		AND QSZT = 1
+	</select>
+
+</mapper>

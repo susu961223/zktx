@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoshu.admin.oracle.mapper.DJshareMapper">
+	<select id="selectDJshare"
+		parameterType="com.xiaoshu.admin.model.DJshare"
+		resultType="com.xiaoshu.admin.model.DJshare">
+		SELECT * FROM (SELECT B.*, ROWNUM RN FROM (select distinct nvl(t.ywh,' ') as
+		ywh,
+		nvl(T.BDCDYH,' ') as bdcdyh,nvl(t.fdzl,' ') as fdzl,nvl(t.bdcqzh,'
+		') as bdcqzh,nvl(a.qlrmc,' ') as qlrmc from FDCQ2 t,qlr a
+		where
+		t.bdcqzh=a.bdcqzh and t.qszt='1' and a.qszt='1'
+		<if test="bdcqzh !=null and bdcqzh !=''">
+			and t.bdcqzh like '%'||#{bdcqzh}||'%'
+		</if>
+		 ) B
+		WHERE
+		ROWNUM &lt;= #{length})
+		<where>
+			RN &gt;= #{start}
+		</where>
+	</select>
+	
+		<select id="selectDJshareAll"
+		parameterType="com.xiaoshu.admin.model.DJshare"
+		resultType="com.xiaoshu.admin.model.DJshare">
+		select distinct nvl(t.ywh,' ') as
+		ywh,
+		nvl(T.BDCDYH,' ') as bdcdyh,nvl(t.fdzl,' ') as fdzl,nvl(t.bdcqzh,'
+		') as bdcqzh,nvl(a.qlrmc,' ') as qlrmc from FDCQ2 t,qlr a
+		where
+		t.bdcqzh=a.bdcqzh and t.qszt='1' and a.qszt='1'
+		<if test="bdcqzh !=null and bdcqzh !=''">
+			and t.bdcqzh like '%'||#{bdcqzh}||'%'
+		</if>
+
+	</select>
+
+	<select id="findCountDJshare"
+		parameterType="com.xiaoshu.admin.model.DJshare"
+		resultType="java.lang.Integer">
+		select count(*) from FDCQ2 t,qlr a
+		<where>
+			t.bdcqzh=a.bdcqzh and t.qszt='1' and a.qszt='1'
+			<if test="bdcqzh !=null and bdcqzh !=''">
+				and t.bdcqzh like '%'||#{bdcqzh}||'%'
+			</if>
+		</where>
+	</select>
+
+
+	<select id="selectQsxxList"
+		parameterType="com.xiaoshu.admin.model.DJshare"
+		resultType="com.xiaoshu.admin.model.DJshare">
+	select
+	Q.BDCDYH,
+	Q.YWH,
+	/* wmsys.wm_concat(to_char(Q.qlrmc)) as qlrmc,
+	wmsys.wm_concat(to_char(Q.ZJH)) as ZJH,*/
+	Q.qlrmc,
+	Q.ZJH,
+	Q.SCJZMJ,
+	Q.SCTNJZMJ,
+	Q.FDZL,
+	Q.FWXZ,
+	Q.QLLX,
+	Q.FWJG,
+	getfwyt(Q.ghyt) as ghyt,
+	Q.ZCS,
+	Q.SJCS,
+	Q.BDCQZH,
+	Q.DJLX,
+	Q.DJSJ
+	from
+	( select
+	DISTINCT nvl(A.BDCDYH ,
+	' ') as BDCDYH,
+	nvl(A.YWH,
+	' ') as YWH ,
+	nvl(B.QLRMC,
+	' ') as QLRMC,
+	nvl( B.ZJH,
+	' ') as ZJH,
+	nvl( to_char(C.SCJZMJ),
+	' ') as SCJZMJ,
+	nvl( to_char(C.SCTNJZMJ),
+	' ') as SCTNJZMJ ,
+	nvl( A.FDZL,
+	' ') as FDZL ,
+	nvl( A.FWXZ,
+	' ') as FWXZ,
+	nvl( A.QLLX,
+	' ') as QLLX,
+	nvl( A.FWJG,
+	' ') as FWJG,
+	nvl( A.GHYT,
+	' ') as GHYT,
+	nvl(to_char( A.ZCS),
+	' ') as ZCS,
+	nvl( C.SJCS,
+	' ') as SJCS,
+	nvl( A.BDCQZH,
+	' ') as BDCQZH,
+	nvl((select
+	t.sqlx
+	from
+	bdc_dict_sqlx t
+	where
+	t.djxl= A.DJLX),
+	' ') as DJLX,
+	A.DJSJ
+	FROM
+	FDCQ2 A
+	JOIN
+	QLR B
+	ON( A.YWH = B.YWH AND B.ZSLX = 'ZS')
+	JOIN
+	H C
+	ON B.BDCDYH = C.BDCDYH
+	WHERE
+	A.QSZT ='1'
+	and b.qszt='1'
+	) Q 
+		<where>
+			1=1
+			<if test="bdcqzh != null and bdcqzh != ''">
+				and Q.bdcqzh = #{bdcqzh}
+			</if>
+		</where>
+		 /* group by
+        Q.BDCDYH,
+        Q.YWH,
+        Q.SCJZMJ,
+        Q.SCTNJZMJ,
+        Q.FDZL,
+        Q.FWXZ,
+        Q.QLLX,
+        Q.FWJG,
+        Q.ghyt,
+        Q.ZCS,
+        Q.SJCS,
+        Q.BDCQZH,
+        Q.DJLX,
+        Q.DJSJ*/
+	</select>
+
+	<select id="selectQsxxYwrList"		parameterType="com.xiaoshu.admin.model.DJshare"		resultType="com.xiaoshu.admin.model.DJshare">
+	SELECT *FROM (SELECT A.YWH, A.BDCQZH, A.BDCDYH, B.QLRMC ywr, B.ZJH ywrzjh, B.ZSLX
+	FROM FDCQ2 A
+	LEFT JOIN QLR B
+	ON (A.YWH = B.YWH AND A.BDCDYH = B.BDCDYH AND B.ZSLX = 'ZS')
+	WHERE A.QSZT = 2
+	AND A.BDCDYH = (select distinct f.bdcdyh from fdcq2 f 
+		<where>
+			<if test="bdcqzh != null and bdcqzh != ''">
+				  f.bdcqzh = #{bdcqzh}
+			</if>
+		</where>
+		and f.qszt=2) order by A.DJSJ DESC)  WHERE ROWNUM = 1
+	</select>
+
+</mapper>

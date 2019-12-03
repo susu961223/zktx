@@ -1,0 +1,24 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.xiaoshu.common.config.MybatisPlusConfig",
+      "name": "spring.datasource",
+      "sourceMethod": "public javax.sql.DataSource db1() ",
+      "type": "javax.sql.DataSource"
+    },
+    {
+      "sourceType": "com.xiaoshu.common.config.MybatisPlusConfig",
+      "name": "spring.second-datasource",
+      "sourceMethod": "public javax.sql.DataSource db2() ",
+      "type": "javax.sql.DataSource"
+    },
+    {
+      "sourceType": "com.xiaoshu.common.config.MybatisPlusConfig",
+      "name": "spring.third-datasource",
+      "sourceMethod": "public javax.sql.DataSource db3() ",
+      "type": "javax.sql.DataSource"
+    }
+  ],
+  "properties": []
+}

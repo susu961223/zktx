@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoshu.admin.oracle.mapper.BdcFileMapper">
+   <select id="findAllFileFilenameList" parameterType="com.xiaoshu.admin.model.Bdcfile" resultType="com.xiaoshu.admin.model.Bdcfile">
+     select filename from bdc_file
+     <where>
+      ywh = #{ywh}
+     <if test="path != null and path != ''">
+     and path like '%'||#{path,jdbcType=VARCHAR}||'%' order by filename
+     </if>
+     </where>
+    </select>
+    <select id="findAllFilePathList" parameterType="com.xiaoshu.admin.model.Bdcfile" resultType="com.xiaoshu.admin.model.Bdcfile">
+     select path from bdc_file
+     <where>
+      ywh = #{ywh} and filename = #{filename} and  rownum=1
+     </where>
+    </select>
+</mapper>

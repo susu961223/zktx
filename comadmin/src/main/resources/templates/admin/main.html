@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta charset="utf-8">
+<title>三河市一窗受理综合管理平台</title>
+<meta name="renderer" content="ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" th:href="@{/static/layui/css/layui.css}"
+	media="all" />
+<link rel="stylesheet" th:href="@{/static/admin/css/main.css}"
+	media="all" />
+<link rel="stylesheet" th:href="@{/static/css/bootstrap.css}"
+	media="all" />
+<script type="text/javascript" th:src="@{/static/js/jquery-2.1.1.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/datatables.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/laydate/laydate.js}"></script>
+<style type="text/css">
+.dataTable{
+	vertical-align: middle;
+    text-align: center; 
+}
+table>thread>tr>th{
+	vertical-align: middle;
+    text-align: center; 
+}
+table>thread{
+	width:'calc(100vh - 280px)';
+}
+#mytab1 th{
+	vertical-align: middle;
+    text-align: center;
+}
+</style>
+</head>
+<body class="childrenBody">
+	<div style="margin-top: 1%; margin-left: 0.5%; width: 99%;">
+			<shiro:hasPermission name="sys:main:main">
+			<div id="tab-1" style="align:center">
+				<!-- <h3 style="width:100%;">不动产收件业务</h3> -->
+				<br>
+					<span style="font-weight: bold;">受理编号：</span> 
+						<input name="slbh1" id="slbh1" type="text">
+					<span style="font-weight: bold;">开始时间：</span>
+						<input	type="text" id="starttime" name="starttime" placeholder="请输入日期"	class="laydate-icon" onclick="laydate()"style="width: 200px; height: 30px;">
+					<span style="font-weight: bold;">结束时间：</span> 
+						<input	type="text" id="endtime" name="endtime" placeholder="请输入日期" class="laydate-icon" onclick="laydate()"	style="width: 200px; height: 30px;">
+												
+					<button type="button" onclick="slcx1();" class="RoleOfedit btn btn-success">查询</button>
+					<a onclick="sjd();" class="RoleOfedit btn btn-success">新建业务</a>
+					<br><br><br>
+					<table id="mytab1" class="table table-bordered table-hover">
+					<thead>
+						<tr>
+							<th class="text-center">序号</th>
+							<th class="text-center">受理编号</th>
+							<th class="text-center">不动产证号</th>
+							<th class="text-center">坐落</th>
+							<th class="text-center">收件人名称</th>
+							<th class="text-center">收件时间</th>
+							<th class="text-center">不动产状态</th>
+							<th class="text-center">房管状态</th>
+							<th class="text-center">税务状态</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			</shiro:hasPermission>
+
+			<shiro:hasPermission name="sys:shbdc:main">
+			<div id="tab-2" style="align:center">
+				<!-- <h3 style="width:100%;">不动产收件业务</h3> -->
+				<br>
+					<span style="font-weight: bold;">受理编号：</span> 
+						<input name="slbh2" id="slbh2" type="text">
+					<span style="font-weight: bold;">开始时间：</span>
+						<input	type="text" id="starttime2" name="starttime2" placeholder="请输入日期"	class="laydate-icon" onclick="laydate()"style="width: 200px; height: 30px;">
+					<span style="font-weight: bold;">结束时间：</span> 
+						<input	type="text" id="endtime2" name="endtime2" placeholder="请输入日期" class="laydate-icon" onclick="laydate()"	style="width: 200px; height: 30px;">
+					<button type="button" onclick="slcx2();" class="RoleOfedit btn btn-success">查询</button>
+					<a onclick="sjd();" class="RoleOfedit btn btn-success">新建业务</a>
+					<br><br><br>
+					<table id="mytab2" class="table table-bordered table-hover">
+					<thead>
+						<tr>
+							<th class="text-center">序号</th>
+							<th class="text-center">受理编号</th>
+							<th class="text-center">不动产证号</th>
+							<th class="text-center">坐落</th>
+							<th class="text-center">收件人名称</th>
+							<th class="text-center">收件时间</th>
+							<th class="text-center">不动产状态</th>
+							<th class="text-center">房管状态</th>
+							<th class="text-center">税务状态</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			</shiro:hasPermission>
+
+			<shiro:hasPermission name="sys:shsw:main">
+			<div id="tab-3" style="align:center">
+				<!-- <h3 style="width:100%;">不动产收件业务</h3> -->
+				<br>
+					<span style="font-weight: bold;">受理编号：</span> 
+						<input name="slbh3" id="slbh3" type="text">
+					<span style="font-weight: bold;">开始时间：</span>
+						<input	type="text" id="starttime3" name="starttime3" placeholder="请输入日期"	class="laydate-icon" onclick="laydate()"style="width: 200px; height: 30px;">
+					<span style="font-weight: bold;">结束时间：</span> 
+						<input	type="text" id="endtime3" name="endtime3" placeholder="请输入日期" class="laydate-icon" onclick="laydate()"	style="width: 200px; height: 30px;">
+												
+					<button type="button" onclick="slcx3();" class="RoleOfedit btn btn-success">查询</button>
+					<br><br><br>
+					<table id="mytab3" class="table table-bordered table-hover">
+					<thead>
+						<tr>
+							<th class="text-center">序号</th>
+							<th class="text-center">受理编号</th>
+							<th class="text-center">不动产证号</th>
+							<th class="text-center">坐落</th>
+							<th class="text-center">收件人名称</th>
+							<th class="text-center">收件时间</th>
+							<th class="text-center">不动产状态</th>
+							<th class="text-center">房管状态</th>
+							<th class="text-center">税务状态</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			</shiro:hasPermission>
+			
+			<shiro:hasPermission name="sys:shfg:main">
+			<div id="tab-4" style="align:center">
+				<!-- <h3 style="width:100%;">不动产收件业务</h3> -->
+				<br>
+					<span style="font-weight: bold;">受理编号：</span> 
+						<input name="slbh4" id="slbh4" type="text">
+					<span style="font-weight: bold;">开始时间：</span>
+						<input	type="text" id="starttime4" name="starttime4" placeholder="请输入日期"	class="laydate-icon" onclick="laydate()"style="width: 200px; height: 30px;">
+					<span style="font-weight: bold;">结束时间：</span> 
+						<input	type="text" id="endtime4" name="endtime4" placeholder="请输入日期" class="laydate-icon" onclick="laydate()"	style="width: 200px; height: 30px;">
+												
+					<button type="button" onclick="slcx4();" class="RoleOfedit btn btn-success">查询</button>
+					<br><br><br>
+					<table id="mytab4" class="table table-bordered table-hover">
+					<thead>
+						<tr>
+							<th class="text-center">序号</th>
+							<th class="text-center">受理编号</th>
+							<th class="text-center">不动产证号</th>
+							<th class="text-center">坐落</th>
+							<th class="text-center">收件人名称</th>
+							<th class="text-center">收件时间</th>
+							<th class="text-center">不动产状态</th>
+							<th class="text-center">税务状态</th>
+							<th class="text-center">房管状态</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			</shiro:hasPermission>
+	</div>
+	<script type="text/javascript" th:inline="javascript">
+	var ywh = [[${ywh}]];
+	$('#slbh1').val(ywh);
+	$('#slbh2').val(ywh);
+	$('#slbh3').val(ywh);
+	$('#slbh4').val(ywh);
+	</script>
+	<script type="text/javascript">
+	var table1;
+	$(document).ready(function() {
+		var lang = {
+			"sProcessing" : "加载中...",
+			"sLengthMenu" : "每页 _MENU_ 项",
+			"sZeroRecords" : "没有匹配结果",
+			"sInfo" : "当前显示第 _START_ 至 _END_ 项，共 _TOTAL_ 项。",
+			"sInfoEmpty" : "当前显示第 0 至 0 项，共 0 项",
+			"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+			"sInfoPostFix" : "",
+			"sSearch" : "搜索:",
+			"sUrl" : "",
+			"sEmptyTable" : "表中数据为空",
+			"sLoadingRecords" : "载入中...",
+			"sInfoThousands" : ",",
+            "bJQueryUI" : true, //是否使用 jQury的UI theme 
+			"oPaginate" : {
+				"sFirst" : "首页",
+				"sPrevious" : "上页",
+				"sNext" : "下页",
+				"sLast" : "末页",
+				"sJump" : "跳转"
+			},
+			"oAria" : {
+				"sSortAscending" : ": 以升序排列此列",
+				"sSortDescending" : ": 以降序排列此列"
+			}
+		};
+		table1 = $('#mytab1').DataTable({
+			bAutoWidth : true,
+			language : lang, //提示信息
+			serverSide : true, //启用服务器端分页
+			searching : false,
+			bLengthChange : false,
+			Processing:false,
+			limit : 10,
+			scrollY : 'calc(100vh - 280px)',
+			crollX : 'calc(100vh - 280px)',
+			iDisplayLength : 10,
+			// 加载状态  
+			ajax : {
+				type : "post",
+				url : "/admin/system/shUpadte/mainTz",
+				dataSrc : "data",
+				data : function(d) {
+					var param = {};
+					var slbh1 = $('#slbh1').val();
+					var starttime = $("#starttime").val();
+		 			var endtime = $("#endtime").val();
+					param.draw = d.draw;
+					param.start = d.start;
+					param.length = d.length;
+					param.slbh = slbh1;
+					param.starttime = starttime;
+		 			param.endtime = endtime;
+					return param;//自定义需要传递的参数。
+				},
+			},
+			columns : [ {
+				data : null,
+				bSortable : true,
+				className : "text-center",
+				width : "3%",
+				render : function(data, type, row, meta) {
+					// 显示行号  
+					var startIndex = meta.settings._iDisplayStart;
+					return startIndex + meta.row + 1;
+				}
+			}, {
+				data : "ywh",
+				width : "4%",
+				sortable : false,
+				render : function(data, type,row, meta) {
+					//return '<a  onclick="bwctz('+data+')">'+data+'</a>';
+					return '<a onclick="javascript:bwctz(this);return false;" href="#">'+data+'</a>';
+				}
+			}, {
+				"data" : "bdczh",
+				width : "9%",
+				bSortable : false
+			},{
+				"data" : "zl",
+				width : "10%",
+				bSortable : false
+			},{
+				"data" : "querymc",
+				width : "6%",
+				bSortable : false
+			}
+			,{
+				"data" : "queryrq",
+				width : "6%",
+				bSortable : false
+			},{
+				"data" : "ywzt",
+				width : "4%",
+				bSortable : false,
+				render : function(data, type,row, meta) {
+				    if (data == "1") {
+                    	return '<a class="layui-btn layui-btn-xs" style="width:80%;background-color:#63B8FF" href="#">'+'已提交'+'</a>';
+                	}else if(data == "2"){
+                		return '<a class="layui-btn layui-btn-xs" style="width:80%;" href="#">'+'已完成'+'</a>';
+                	}else{
+                		return "已收件";
+                	}
+				}
+			}, {
+				"data" : "ywFgzt",
+				width : "4%",
+				bSortable : false,
+				render : function(data, type,row, meta) {
+				    if (data == "2") {
+                    	return '<a class="layui-btn layui-btn-xs" style="width:80%;" href="#">'+'已完成'+'</a>';
+                	}else{
+                		return "";
+                	}
+				}
+			}, {
+				"data" : "ywSwzt",
+				width : "4%",
+				bSortable : false,
+				render : function(data, type,row, meta) {
+				    if (data == "0") {
+                    	return "已收件";
+                	}else if(data == "1"){
+                		return '<a class="layui-btn layui-btn-xs" style="width:80%;" href="#">'+'已完成'+'</a>';
+                	}else{
+                		return "";
+                	}
+				}
+			}]
+		});
+	});
+	function slcx1() {
+		table1.ajax.reload();
+	}
+	function bwctz(obj){
+		var slbh=obj.innerText;
+		layer.open({
+			  type: 2,
+			  title: ['不动产信息','font-size: 20px;'],
+			  shadeClose: true,
+			  shade: 0.8,
+			  area: ['100%', '100%'],
+			  content: "/mainList?slbh=" + slbh,
+		}); 
+	}
+	function sjd(){
+		layer.open({
+			type : 2,
+			title : [ '收件单', 'font-size: 20px;color:#44ACB6;' ],
+			shadeClose : true,
+			shade : 0.8,
+			area : [ '100%', '100%' ],
+			content : "/admin/shbdc/sjd",
+		});
+	}
+</script>
+	<script type="text/javascript">
+	var table2;
+	$(document).ready(function() {
+		var lang = {
+			"sProcessing" : "加载中...",
+			"sLengthMenu" : "每页 _MENU_ 项",
+			"sZeroRecords" : "没有匹配结果",
+			"sInfo" : "当前显示第 _START_ 至 _END_ 项，共 _TOTAL_ 项。",
+			"sInfoEmpty" : "当前显示第 0 至 0 项，共 0 项",
+			"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+			"sInfoPostFix" : "",
+			"sSearch" : "搜索:",
+			"sUrl" : "",
+			"sEmptyTable" : "表中数据为空",
+			"sLoadingRecords" : "载入中...",
+			"sInfoThousands" : ",",
+            "bJQueryUI" : true, //是否使用 jQury的UI theme 
+			"oPaginate" : {
+				"sFirst" : "首页",
+				"sPrevious" : "上页",
+				"sNext" : "下页",
+				"sLast" : "末页",
+				"sJump" : "跳转"
+			},
+			"oAria" : {
+				"sSortAscending" : ": 以升序排列此列",
+				"sSortDescending" : ": 以降序排列此列"
+			}
+		};
+		table2 = $('#mytab2').DataTable({
+			bAutoWidth : true,
+			language : lang, //提示信息
+			serverSide : true, //启用服务器端分页
+			searching : false,
+			bLengthChange : false,
+			Processing:false,
+			limit : 10,
+			scrollY : 'calc(100vh - 280px)',
+			crollX : 'calc(100vh - 280px)',
+			iDisplayLength : 10,
+			// 加载状态  
+			ajax : {
+				type : "post",
+				url : "/admin/system/shUpadte/mainbdcTz",
+				dataSrc : "data",
+				data : function(d) {
+					var param = {};
+					var slbh2 = $('#slbh2').val();
+					var starttime = $("#starttime2").val();
+		 			var endtime = $("#endtime2").val();
+					param.draw = d.draw;
+					param.start = d.start;
+					param.length = d.length;
+					param.slbh = slbh2;
+					param.starttime = starttime;
+		 			param.endtime = endtime;
+					return param;//自定义需要传递的参数。
+				},
+			},
+			columns : [ {
+				data : null,
+				bSortable : true,
+				className : "text-center",
+				width : "3%",
+				render : function(data, type, row, meta) {
+					// 显示行号  
+					var startIndex = meta.settings._iDisplayStart;
+					return startIndex + meta.row + 1;
+				}
+			}, {
+				data : "ywh",
+				width : "4%",
+				sortable : false,
+				render : function(data, type,row, meta) {
+					//return '<a  onclick="bwctz('+data+')">'+data+'</a>';
+					return '<a onclick="javascript:bwctz2(this);return false;" href="#">'+data+'</a>';
+				}
+			}, {
+				"data" : "bdczh",
+				width : "9%",
+				bSortable : false
+			},{
+				"data" : "zl",
+				width : "10%",
+				bSortable : false
+			},{
+				"data" : "querymc",
+				width : "6%",
+				bSortable : false
+			}
+			,{
+				"data" : "queryrq",
+				width : "6%",
+				bSortable : false
+			},{
+				"data" : "ywzt",
+				width : "4%",
+				bSortable : false,
+				render : function(data, type,row, meta) {
+				    if (data == "1") {
+                    	return '<a class="layui-btn layui-btn-xs" style="width:80%;background-color:#63B8FF" href="#">'+'已提交'+'</a>';
+                	}else if(data == "2"){
+                		return '<a class="layui-btn layui-btn-xs" style="width:80%;" href="#">'+'已完成'+'</a>';
+                	}else{
+                		return "已收件";
+                	}
+				}
+			}, {
+				"data" : "ywFgzt",
+				width : "4%",
+				bSortable : false,
+				render : function(data, type,row, meta) {
+				    if (data == "2") {
+                    	return '<a class="layui-btn layui-btn-xs" style="width:80%;" href="#">'+'已完成'+'</a>';
+                	}else{
+                		return "";
+                	}
+				}
+			}, {
+				"data" : "ywSwzt",
+				width : "4%",
+				bSortable : false,
+				render : function(data, type,row, meta) {
+				    if (data == "0") {
+                    	return "已收件";
+                	}else if(data == "1"){
+                		return '<a class="layui-btn layui-btn-xs" style="width:80%;" href="#">'+'已完成'+'</a>';
+                	}else{
+                		return "";
+                	}
+				}
+			}]
+		});
+	});
+	function slcx2() {
+		table2.ajax.reload();
+	}
+	function bwctz2(obj){
+		var slbh=obj.innerText;
+		layer.open({
+			  type: 2,
+			  title: ['不动产信息','font-size: 20px;'],
+			  shadeClose: true,
+			  shade: 0.8,
+			  area: ['100%', '100%'],
+			  content: "/mainList?slbh=" + slbh,
+		}); 
+	}
+</script>
+<script type="text/javascript">
+	var table3;
+	$(document).ready(function() {
+		var lang = {
+			"sProcessing" : "加载中...",
+			"sLengthMenu" : "每页 _MENU_ 项",
+			"sZeroRecords" : "没有匹配结果",
+			"sInfo" : "当前显示第 _START_ 至 _END_ 项，共 _TOTAL_ 项。",
+			"sInfoEmpty" : "当前显示第 0 至 0 项，共 0 项",
+			"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+			"sInfoPostFix" : "",
+			"sSearch" : "搜索:",
+			"sUrl" : "",
+			"sEmptyTable" : "表中数据为空",
+			"sLoadingRecords" : "载入中...",
+			"sInfoThousands" : ",",
+            "bJQueryUI" : true, //是否使用 jQury的UI theme 
+			"oPaginate" : {
+				"sFirst" : "首页",
+				"sPrevious" : "上页",
+				"sNext" : "下页",
+				"sLast" : "末页",
+				"sJump" : "跳转"
+			},
+			"oAria" : {
+				"sSortAscending" : ": 以升序排列此列",
+				"sSortDescending" : ": 以降序排列此列"
+			}
+		};
+		table3 = $('#mytab3').DataTable({
+			bAutoWidth : true,
+			language : lang, //提示信息
+			serverSide : true, //启用服务器端分页
+			searching : false,
+			bLengthChange : false,
+			Processing:false,
+			limit : 10,
+			scrollY : 'calc(100vh - 280px)',
+			crollX : 'calc(100vh - 280px)',
+			iDisplayLength : 10,
+			// 加载状态  
+			ajax : {
+				type : "post",
+				url : "/admin/system/shUpadte/mainswTz",
+				dataSrc : "data",
+				data : function(d) {
+					var param = {};
+					var slbh3 = $('#slbh3').val();
+					var starttime = $("#starttime3").val();
+		 			var endtime = $("#endtime3").val();
+					param.draw = d.draw;
+					param.start = d.start;
+					param.length = d.length;
+					param.slbh = slbh3;
+					param.starttime = starttime;
+		 			param.endtime = endtime;
+					return param;//自定义需要传递的参数。
+				},
+			},
+			columns : [ {
+				data : null,
+				bSortable : true,
+				className : "text-center",
+				width : "3%",
+				render : function(data, type, row, meta) {
+					// 显示行号  
+					var startIndex = meta.settings._iDisplayStart;
+					return startIndex + meta.row + 1;
+				}
+			}, {
+				data : "ywh",
+				width : "4%",
+				sortable : false,
+				render : function(data, type,row, meta) {
+					//return '<a  onclick="bwctz('+data+')">'+data+'</a>';
+					return '<a onclick="javascript:bwctz3(this);return false;" href="#">'+data+'</a>';
+				}
+			}, {
+				"data" : "bdczh",
+				width : "9%",
+				bSortable : false
+			},{
+				"data" : "zl",
+				width : "10%",
+				bSortable : false
+			},{
+				"data" : "querymc",
+				width : "6%",
+				bSortable : false
+			}
+			,{
+				"data" : "queryrq",
+				width : "6%",
+				bSortable : false
+			},{
+				"data" : "ywzt",
+				width : "4%",
+				bSortable : false,
+				render : function(data, type,row, meta) {
+				    if (data == "1") {
+                    	return '<a class="layui-btn layui-btn-xs" style="width:80%;background-color:#63B8FF" href="#">'+'已提交'+'</a>';
+                	}else if(data == "2"){
+                		return '<a class="layui-btn layui-btn-xs" style="width:80%;" href="#">'+'已完成'+'</a>';
+                	}else{
+                		return "已收件";
+                	}
+				}
+			}, {
+				"data" : "ywFgzt",
+				width : "4%",
+				bSortable : false,
+				render : function(data, type,row, meta) {
+				    if (data == "2") {
+                    	return '<a class="layui-btn layui-btn-xs" style="width:80%;" href="#">'+'已完成'+'</a>';
+                	}else{
+                		return "";
+                	}
+				}
+			}, {
+				"data" : "ywSwzt",
+				width : "4%",
+				bSortable : false,
+				render : function(data, type,row, meta) {
+				    if (data == "0") {
+                    	return "已收件";
+                	}else if(data == "1"){
+                		return '<a class="layui-btn layui-btn-xs" style="width:80%;" href="#">'+'已完成'+'</a>';
+                	}else{
+                		return "";
+                	}
+				}
+			}]
+		});
+	});
+	function slcx3() {
+		table3.ajax.reload();
+	}
+	function bwctz3(obj){
+		var slbh=obj.innerText;
+		layer.open({
+			  type: 2,
+			  title: ['不动产信息','font-size: 20px;'],
+			  shadeClose: true,
+			  shade: 0.8,
+			  area: ['100%', '100%'],
+			  content: "/shswQsxx?slbh=" + slbh,
+		}); 
+	}
+</script>
+<script type="text/javascript">
+var table4;
+$(document).ready(function() {
+	var lang = {
+		"sProcessing" : "加载中...",
+		"sLengthMenu" : "每页 _MENU_ 项",
+		"sZeroRecords" : "没有匹配结果",
+		"sInfo" : "当前显示第 _START_ 至 _END_ 项，共 _TOTAL_ 项。",
+		"sInfoEmpty" : "当前显示第 0 至 0 项，共 0 项",
+		"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+		"sInfoPostFix" : "",
+		"sSearch" : "搜索:",
+		"sUrl" : "",
+		"sEmptyTable" : "表中数据为空",
+		"sLoadingRecords" : "载入中...",
+		"sInfoThousands" : ",",
+        "bJQueryUI" : true, //是否使用 jQury的UI theme 
+		"oPaginate" : {
+			"sFirst" : "首页",
+			"sPrevious" : "上页",
+			"sNext" : "下页",
+			"sLast" : "末页",
+			"sJump" : "跳转"
+		},
+		"oAria" : {
+			"sSortAscending" : ": 以升序排列此列",
+			"sSortDescending" : ": 以降序排列此列"
+		}
+	};
+	table4 = $('#mytab4').DataTable({
+		bAutoWidth : true,
+		language : lang, //提示信息
+		serverSide : true, //启用服务器端分页
+		searching : false,
+		bLengthChange : false,
+		Processing:false,
+		limit : 10,
+		scrollY : 'calc(100vh - 280px)',
+		crollX : 'calc(100vh - 280px)',
+		iDisplayLength : 10,
+		// 加载状态  
+		ajax : {
+			type : "post",
+			url : "/admin/system/shUpadte/mainTz",
+			dataSrc : "data",
+			data : function(d) {
+				var param = {};
+				var slbh4 = $('#slbh4').val();
+				var starttime = $("#starttime4").val();
+	 			var endtime = $("#endtime4").val();
+				param.draw = d.draw;
+				param.start = d.start;
+				param.length = d.length;
+				param.slbh = slbh4;
+				param.starttime = starttime;
+	 			param.endtime = endtime;
+				return param;//自定义需要传递的参数。
+			},
+		},
+		columns : [ {
+			data : null,
+			bSortable : true,
+			className : "text-center",
+			width : "3%",
+			render : function(data, type, row, meta) {
+				// 显示行号  
+				var startIndex = meta.settings._iDisplayStart;
+				return startIndex + meta.row + 1;
+			}
+		}, {
+			data : "ywh",
+			width : "4%",
+			sortable : false,
+			render : function(data, type,row, meta) {
+				//return '<a  onclick="bwctz('+data+')">'+data+'</a>';
+				return '<a onclick="javascript:bwctz4(this);return false;" href="#">'+data+'</a>';
+			}
+		}, {
+			"data" : "bdczh",
+			width : "9%",
+			bSortable : false
+		},{
+			"data" : "zl",
+			width : "10%",
+			bSortable : false
+		},{
+			"data" : "querymc",
+			width : "6%",
+			bSortable : false
+		}
+		,{
+			"data" : "queryrq",
+			width : "6%",
+			bSortable : false
+		},{
+			"data" : "ywzt",
+			width : "4%",
+			bSortable : false,
+			render : function(data, type,row, meta) {
+			    if (data == "1") {
+                	return '<a class="layui-btn layui-btn-xs" style="width:80%;background-color:#63B8FF" href="#">'+'已提交'+'</a>';
+            	}else if(data == "2"){
+            		return '<a class="layui-btn layui-btn-xs" style="width:80%;" href="#">'+'已完成'+'</a>';
+            	}else{
+            		return "已收件";
+            	}
+			}
+		}, {
+			"data" : "ywFgzt",
+			width : "4%",
+			bSortable : false,
+			render : function(data, type,row, meta) {
+			    if (data == "2") {
+                	return '<a class="layui-btn layui-btn-xs" style="width:80%;" href="#">'+'已完成'+'</a>';
+            	}else{
+            		return "";
+            	}
+			}
+		}, {
+			"data" : "ywSwzt",
+			width : "4%",
+			bSortable : false,
+			render : function(data, type,row, meta) {
+			    if (data == "0") {
+                	return "已收件";
+            	}else if(data == "1"){
+            		return '<a class="layui-btn layui-btn-xs" style="width:80%;" href="#">'+'已完成'+'</a>';
+            	}else{
+            		return "";
+            	}
+			}
+		}]
+	});
+});
+function slcx4() {
+	table4.ajax.reload();
+}
+function bwctz4(obj){
+	var slbh=obj.innerText;
+	layer.open({
+		  type: 2,
+		  title: ['不动产信息','font-size: 20px;'],
+		  shadeClose: true,
+		  shade: 0.8,
+		  area: ['100%', '100%'],
+		  content: "/shfgQsxx?slbh=" + slbh,
+	}); 
+}
+</script>
+<script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{/static/admin/js/main.js}"></script>
+</body>
+</html>

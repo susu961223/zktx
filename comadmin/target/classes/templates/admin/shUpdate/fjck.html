@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="ie-stand">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<title>不动产收件</title>
+<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}" media="all">
+<link rel="stylesheet" th:href="@{/static/css/set2.css}" type="text/css" media="all" />
+<link rel="stylesheet" th:href="@{/static/css/bootstrap.css}" media="all" />
+<link rel="stylesheet" th:href="@{/static/layui/css/layui.css}"	media="all" />
+<link rel="stylesheet" th:href="@{/static/css/owl.carousel.css}" type="text/css" />
+<link rel="stylesheet" th:href="@{/static/css/zoomify.min.css}" type="text/css" />
+<script type="text/javascript" th:src="@{/static/js/bootstrap.js}" ></script>
+<script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{/static/admin/js/tools.js}"></script>
+<script type="text/javascript" th:src="@{/static/laydate/laydate.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery-2.0.3.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/owl.carousel.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/zoomify.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jQueryRotate.js}"></script>
+<script type="text/javascript">
+$(function(){
+	$('#owl-demo').owlCarousel({
+		items: 1,
+		navigation: true,
+		navigationText: ["上一个","下一个"],
+		autoPlay: true,
+		stopOnHover: true
+	});
+});
+</script>
+<style type="text/css">
+#owl-demo{position:relative;width:85%;padding-bottom:20px;margin:0px auto 0 auto;}
+/* 左右箭头 */
+.owl-buttons div{position:absolute;top:30%;width:45px;height:81px;margin-top:-90px;text-indent:-9999px;background-image:url(static/img/arrow2.png);transition:background-position 0.2s ease-out 0s;}
+.owl-prev{left:-60px;background-position:0 0;}
+.owl-next{right:-60px;background-position:right 0;}
+.owl-prev:hover{background-position:-53px 0;}
+.owl-next:hover{background-position:-122px 0;}
+.tupian img{
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	width:100%;
+	/* margin:auto; */
+	z-index: -1;
+	*zoom:1;
+
+}
+.tupian:before {
+	content: "";
+	display: inline-block;
+	padding-bottom: 100%;
+	width: 0.1px;
+	vertical-align: middle;
+}
+.tupian{
+	width: 100%;
+	position:relative;
+	z-index:1;
+	text-align: center;
+}
+
+#top_top{	
+	position: relative;
+    width: 95%;
+    margin: 20px auto;
+    border: 1px solid #567d9a;
+    height: 50px;
+    background-color: #567d9a;
+    margin-bottom: 0px;
+	margin-top:20px;
+}
+
+.table tr,td,th{
+	border:1px solid !important;
+	text-align:center !important;
+}
+#tab td{
+	width:15%;
+}
+table tr {
+	height: 40px;
+}
+.row form-group {
+	
+}
+.fj{
+	width:50px;
+	height:50px;
+	
+	display:inline-block;
+	vertical-align:top;
+}
+.tsButton
+{
+	width: 60px;
+	height: 35px;
+	border: 0;
+	background-color: #44ACB6;
+	border-radius: 5px;
+	color: #fff;
+}
+
+</style>
+</head>
+<body >
+<div style="width: 100%;height:1800px;">
+		<div id="top_top" align="center">          
+		     <label id ="srf" style="text-align: center;font-size: 28px;margin-top: 4px">附件详情</label> 
+		</div>	
+	<div style="align:center;margin-left:45%;margin-top:20px;" class="btnAll">
+          <img th:src="@{/static/img/add.png}" onclick="imgToSize(100);"/>
+          &nbsp;
+          <img th:src="@{/static/img/reduce.png}" onclick="imgToSize(-100);"/>
+          &nbsp;
+          <img th:src="@{/static/img/leftr.png}" onclick="leftRotate();"/>
+          &nbsp;
+          <img th:src="@{/static/img/rightr.png}" onclick="rightRotate();"/>
+<!--           <input type="image" th:src="@{/static/img/add.png}" class="btn btn-info" style="font-size:30px;" value="水平翻转" onclick="imgReverse('h');"/>
+          <input type="image" th:src="@{/static/img/add.png}" class="btn btn-info" style="font-size:30px;" value="垂直翻转" onclick="imgReverse('v');"/> -->
+    </div>         
+	
+	<div id="owl-demo" class="owl-carousel">
+     <div th:each="file, iter : ${fjlist}" class="tupian" id="tupian" >
+          <img id="Imgbox" th:unless="${file.suffix == 'pdf'}" th:src="@{${file.filePath}}" class="dialog">
+          <embed th:if="${file.suffix == 'pdf'}" th:src="@{${file.filePath}}"></embed>        
+    </div>
+
+	</div>	 
+
+<!-- -----------附件------------- end-->
+</div>
+<script type="text/javascript">
+	$('.slider img').zoomify();
+	var size = 0;
+	var r = 0;
+	function imgToSize(size){
+		var img =  $(".dialog");
+		var oWidth = img.width(); //取得图片的实际宽度
+		var oHeight = img.height(); //取得图片的实际高度
+		var w = oWidth + size;//取得改变后图片的宽度
+		var box = document.getElementById("tupian");//取得父div宽度
+		var contentHeight = box.offsetWidth;//取得父div宽度
+		img.width(oWidth + size);
+		img.height(oHeight + size / oWidth * oHeight);
+		var change = (contentHeight - w ) / 2+"px";
+		$(".dialog").css("margin-left",function(){return change;});
+	}
+	/* function imgReverse(arg)
+	{
+		var img = $(".dialog");
+		if (arg == 'h')
+		{
+			img.css(
+			{
+				'filter' : 'fliph',
+				'-moz-transform' : 'matrix(-1, 0, 0, 1, 0, 0)',
+				'-webkit-transform' : 'matrix(-1, 0, 0, 1, 0, 0)'
+			});
+		} else
+		{
+			img.css(
+			{
+				'filter' : 'flipv',
+				'-moz-transform' : 'matrix(1, 0, 0, -1, 0, 0)',
+				'-webkit-transform' : 'matrix(1, 0, 0, -1, 0, 0)'
+			});
+		}
+	} */
+	function leftRotate(){
+		r += 90;
+		$(".dialog").css('transform','rotate('+r+'deg)')
+		//当图片横着显示的时候始靠顶
+		var jo = Math.abs(r/90);
+		if(jo%2 ==0){
+			$(".dialog").css('margin','0px');
+		}else{
+			$(".dialog").css('margin','auto');
+		}
+	}
+	function rightRotate(){
+		r -= 90;
+		$(".dialog").css('transform','rotate('+r+'deg)')
+	}
+</script>
+</body>

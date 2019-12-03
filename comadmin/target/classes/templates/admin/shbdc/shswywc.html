@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta charset="utf-8">
+<title>一窗受理管理平台</title>
+<meta name="renderer" content="ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" th:href="@{/static/layui/css/layui.css}"
+	media="all" />
+<link rel="stylesheet" th:href="@{/static/admin/css/main.css}"
+	media="all" />
+<link rel="stylesheet" th:href="@{/static/css/bootstrap.css}"
+	media="all" />
+<script type="text/javascript" th:src="@{/static/js/jquery-2.1.1.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/datatables.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/laydate/laydate.js}"></script>
+<style type="text/css">
+.dataTable{
+	vertical-align: middle;
+    text-align: center; 
+}
+table>thread>tr>th{
+	vertical-align: middle;
+    text-align: center; 
+}
+#mytab1 th{
+	vertical-align: middle;
+    text-align: center;
+}
+table>thread{
+	width:'calc(100vh - 280px)';
+}
+</style>
+<script>
+		function() {
+			laydate({
+				elem: '#demo'
+			})
+
+		};
+	</script>
+</head>
+<body class="childrenBody">
+	<div style="margin-top: 1%; margin-left: 0.5%; width: 99%;">
+		<div>
+			<div id="tab-1" style="align:center">
+				<h3 style="width:100%;">税务完成业务</h3>
+				<br>
+					<span style="font-size: 18px; font-weight: bold;">受理编号：</span> 
+						<input name="slbh1" id="slbh1" type="text">
+						<span style="font-size: 18px; font-weight: bold;">坐落：</span> 
+						<input name="zl1" id="zl1" type="text">
+						&nbsp; <span
+							style="font-size: 18px; font-weight: bold;">开始时间:</span> &nbsp; <input
+							type="text" id="starttime" name="starttime" placeholder="请输入日期"
+							class="laydate-icon" onclick="laydate()"
+							style="width: 200px; height: 30px;"> &nbsp; &nbsp; <span
+							style="font-size: 18px; font-weight: bold;">结束时间:</span> &nbsp; <input
+							type="text" id="endtime" name="endtime" placeholder="请输入日期"
+							class="laydate-icon" onclick="laydate()"
+							style="width: 200px; height: 30px;">
+					<button type="button" onclick="slcx1();" class="RoleOfedit btn btn-success">查询</button>
+					<br><br>
+					<table id="mytab2" class="table table-bordered table-hover">
+					<thead>
+						<tr>
+							<th class="text-center">序号</th>
+							<th class="text-center">受理编号</th>
+							<th class="text-center">不动产证号</th>
+							<th class="text-center">坐落</th>
+							<th class="text-center">收件人名称</th>
+							<th class="text-center">收件时间</th>
+							<th class="text-center">税务状态</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" th:inline="javascript">
+	var ywh = [[${ywh}]];
+	$('#slbh1').val(ywh);
+	var table1;
+	$(document).ready(function() {
+		var lang = {
+			"sProcessing" : "加载中...",
+			"sLengthMenu" : "每页 _MENU_ 项",
+			"sZeroRecords" : "没有匹配结果",
+			"sInfo" : "当前显示第 _START_ 至 _END_ 项，共 _TOTAL_ 项。",
+			"sInfoEmpty" : "当前显示第 0 至 0 项，共 0 项",
+			"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+			"sInfoPostFix" : "",
+			"sSearch" : "搜索:",
+			"sUrl" : "",
+			"sEmptyTable" : "表中数据为空",
+			"sLoadingRecords" : "载入中...",
+			"sInfoThousands" : ",",
+            "bJQueryUI" : true, //是否使用 jQury的UI theme 
+			"oPaginate" : {
+				"sFirst" : "首页",
+				"sPrevious" : "上页",
+				"sNext" : "下页",
+				"sLast" : "末页",
+				"sJump" : "跳转"
+			},
+			"oAria" : {
+				"sSortAscending" : ": 以升序排列此列",
+				"sSortDescending" : ": 以降序排列此列"
+			}
+		};
+		table1 = $('#mytab2').DataTable({
+			bAutoWidth : true,
+			language : lang, //提示信息
+			serverSide : true, //启用服务器端分页
+			searching : false,
+			bLengthChange : false,
+			Processing:false,
+			limit : 10,
+			scrollY : 'calc(100vh - 280px)',
+			   scrollX : 'calc(100vh - 280px)',
+			iDisplayLength : 10,
+			// 加载状态  
+			ajax : {
+				type : "post",
+				url : "/admin/shsw/res/shswywc",
+				dataSrc : "data",
+				data : function(d) {
+					var param = {};
+					var slbh1 = $('#slbh1').val();
+					var zl1 = $('#zl1').val();
+					var starttime = $('#starttime').val();
+					var endtime = $('#endtime').val();
+					param.draw = d.draw;
+					param.start = d.start;
+					param.length = d.length;
+					param.slbh = slbh1;
+					param.zl = zl1;
+					param.starttime = starttime;
+					param.endtime = endtime;
+					return param;//自定义需要传递的参数。
+				},
+			},
+			columns : [ {
+				data : null,
+				bSortable : true,
+				className : "text-center",
+				width : "3%",
+				render : function(data, type, row, meta) {
+					// 显示行号  
+					var startIndex = meta.settings._iDisplayStart;
+					return startIndex + meta.row + 1;
+				}
+			}, {
+				data : "ywh",
+				width : "4%",
+				sortable : false,
+				render : function(data, type,row, meta) {
+					//return '<a  onclick="bwctz('+data+')">'+data+'</a>';
+					return '<a onclick="javascript:bwctz(this);return false;" href="#">'+data+'</a>';
+				}
+			}, {
+				"data" : "bdczh",
+				width : "9%",
+				bSortable : false
+			},{
+				"data" : "zl",
+				width : "10%",
+				bSortable : false
+			},{
+				"data" : "querymc",
+				width : "6%",
+				bSortable : false
+			}
+			,{
+				"data" : "queryrq",
+				width : "6%",
+				bSortable : false
+			},{
+				"data" : "ywSwzt",
+				width : "4%",
+				bSortable : false,
+				render : function(data, type,row, meta) {
+					if(data == "1"){
+						data = "已完成";
+						return data;
+					}
+				}
+			}]
+		});
+	});
+	function slcx1() {
+		table1.ajax.reload();
+	}
+	function bwctz(obj){
+		var slbh=obj.innerText;
+		layer.open({
+			  type: 2,
+			  title: ['不动产信息','font-size: 20px;'],
+			  shadeClose: true,
+			  shade: 0.8,
+			  area: ['100%', '100%'],
+			  content: "/shswQsxx?slbh=" + slbh,
+		}); 
+	}
+	
+</script>
+
+	<script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
+	<script type="text/javascript" th:src="@{/static/admin/js/main.js}"></script>
+</body>
+</html>	

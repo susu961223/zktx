@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoshu.admin.mapper.ShMainSwMapper">
+
+	<select id="selectSwAllList"
+		parameterType="com.xiaoshu.admin.model.ShMain"
+		resultType="com.xiaoshu.admin.model.ShMain">
+		select * from sh_sl
+		<where>
+			swblr='绋庡姟1'
+			<if test="ywh!=null and ywh !=''">
+				and ywh = #{ywh}
+			</if>
+		</where>
+		LIMIT #{start},#{length}
+	</select>
+
+	<select id="selectQsxxTS"
+		parameterType="com.xiaoshu.admin.model.ShMain"
+		resultType="com.xiaoshu.admin.model.ShMain">
+		select ifnull(ywh,' ') as ywh ,
+		ifnull(djyy,' ') as djyy ,
+		ifnull(qllx,' ') as qllx ,
+		ifnull(ywzt,' ') as ywzt ,
+		ifnull(swblrq,' ') as swblrq,
+		ifnull(swblr,' ') as swblr,
+		ifnull(querymc,' ') as querymc ,
+		ifnull(queryrq,' ') as queryrq ,
+		ifnull(bdczh,' ') as bdczh ,
+		ifnull(tdsyqr,' ') as tdsyqr,
+		ifnull(dytdmj,' ') as dytdmj ,
+		ifnull(fttdmj,' ') as fttdmj,
+		ifnull(tdsyqssj,' ') as tdsyqssj,
+		ifnull(tdsyjssj,' ') as tdsyjssj,
+		ifnull(fdcjyjg,' ') as fdcjyjg,
+		ifnull(ghyt,' ') as ghyt ,
+		ifnull(fwxz,' ') as fwxz ,
+		ifnull(fwjg,' ') as fwjg ,
+		ifnull(szc,' ') as szc ,
+		ifnull(zcs ,' ') as zcs ,
+		ifnull(jzmj,' ') as jzmj,
+		ifnull(zyjzmj ,' ') as zyjzmj ,
+		ifnull(ftjzmj,' ') as ftjzmj,
+		ifnull(jgsj,' ') as jgsj,
+		ifnull(fj,' ') as fj ,
+		ifnull(djsj,' ') as djsj ,
+		ifnull(fzsj,' ') as fzsj ,
+		ifnull(tssj,' ') as tssj,
+		ifnull(zl,' ') as zl,
+		ifnull(qlrmc,' ') as qlrmc ,
+		ifnull(ywFgzt,' ') as ywFgzt,
+		ifnull(ywSwzt,' ') as ywSwzt,
+		ifnull(mfje,' ') as mfje,
+		ifnull(smfje,' ') as smfje from sh_sl
+		<where>
+			<if test="ywh!=null and ywh !=''">
+				ywh = #{ywh}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectQlr"
+		parameterType="com.xiaoshu.admin.model.QlrTs"
+		resultType="com.xiaoshu.admin.model.QlrTs">
+		select ifnull(qlrywh,' ') as qlrywh,
+		ifnull(dz,' ') as dz,
+		ifnull(dh,' ') as dh,
+		ifnull(qlrlx,' ') as qlrlx,
+		ifnull(zjzl,' ') as zjzl,
+		ifnull(zjhm ,' ') as zjhm,
+		ifnull(qlr,' ') as qlr,
+		ifnull(qlrbdcqzh ,' ') as qlrbdcqzh,
+		ifnull(bdclx,' ') as bdclx from sh_qlr
+		<where>
+			<if test="qlrywh!=null and qlrywh !=''">
+				qlrywh=#{qlrywh}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectYwr"
+		parameterType="com.xiaoshu.admin.model.YwrTs"
+		resultType="com.xiaoshu.admin.model.YwrTs">
+		select ifnull(ywrywh,' ') as ywrywh,
+		ifnull(ywrdz,' ') as ywrdz,
+		ifnull(ywrdh,' ') as ywrdh,
+		ifnull(ywrqlrlx,' ') as ywrqlrlx,
+		ifnull(ywrzjzl,' ') as ywrzjzl,
+		ifnull(ywrzjhm ,' ') as ywrzjhm,
+		ifnull(ywrqlr,' ') as ywrqlr,
+		ifnull(ywrbdcqzh ,' ') as ywrbdcqzh,
+		ifnull(ywrbdclx,' ') as ywrbdclx from sh_ywr
+		<where>
+
+			<if test="ywrywh!=null and ywrywh !=''">
+				ywrywh=#{ywrywh}
+			</if>
+		</where>
+
+	</select>
+
+	<!-- 鏌ヨ涓嶅姩浜ф敹浠讹紝宸叉帹閫侊紝宸插畬鎴愭暟鎹�绘暟 -->
+	<select id="findCountSwAllList"
+		parameterType="com.xiaoshu.admin.model.ShMain"
+		resultType="java.lang.Integer">
+		SELECT Count(*) from sh_sl a
+		<where>
+			querymc = #{querymc} and a.zt = '0'
+			<if test="ywh!=null and ywh !=''">
+				and a.ywh like "%"#{ywh,jdbcType=VARCHAR}"%"
+			</if>
+			<if test="ywzt!=null and ywzt !=''">
+				and a.ywzt = #{ywzt}
+			</if>
+			<if test="zl!=null and zl !=''">
+				and a.zl like "%"#{zl,jdbcType=VARCHAR}"%"
+			</if>
+			<if
+				test="starttime !=null and endtime !=null and starttime !='' and endtime !=''">
+				and a.djsj between #{starttime} and #{endtime}
+			</if>
+		</where>
+	</select>
+
+	<!-- 鏌ヨ绋庡姟鏀朵欢锛屽凡瀹屾垚鏁版嵁鎬绘暟 -->
+	<select id="findbdcswCountAllList"
+		parameterType="com.xiaoshu.admin.model.ShMain"
+		resultType="java.lang.Integer">
+		SELECT Count(*) from sh_sl a
+		<where>
+			a.swblr=#{swblr} and a.zt = '0'
+			<if test="ywh!=null and ywh !=''">
+				and a.ywh like "%"#{ywh,jdbcType=VARCHAR}"%"
+			</if>
+			<if test="ywSwzt!=null and ywSwzt !=''">
+				and a.ywSwzt = #{ywSwzt}
+			</if>
+			<if test="zl!=null and zl !=''">
+				and a.zl like "%"#{zl,jdbcType=VARCHAR}"%"
+			</if>
+			<if
+				test="starttime !=null and endtime !=null and starttime !='' and endtime !=''">
+				and a.djsj between #{starttime} and #{endtime}
+			</if>
+		</where>
+	</select>
+	<!-- 鏌ヨ鎴跨鏀朵欢锛屽凡瀹屾垚鏁版嵁鎬绘暟 -->
+	<select id="findbdcfgCountAllList"
+		parameterType="com.xiaoshu.admin.model.ShMain"
+		resultType="java.lang.Integer">
+		SELECT Count(*) from sh_sl a
+
+		<where>
+			a.zt = '0'
+			<if test="ywh!=null and ywh !=''">
+				and a.ywh like "%"#{ywh,jdbcType=VARCHAR}"%"
+			</if>
+			<if test="ywFgzt!=null and ywFgzt !=''">
+				and a.ywFgzt = #{ywFgzt}
+			</if>
+			<if test="zl!=null and zl !=''">
+				and a.zl like "%"#{zl,jdbcType=VARCHAR}"%"
+			</if>
+			<if
+				test="starttime !=null and endtime !=null and starttime !='' and endtime !=''">
+				and a.djsj between #{starttime} and #{endtime}
+			</if>
+		</where>
+	</select>
+
+
+	<!-- 鏌ヨ涓嶅姩浜ф敹浠讹紝宸叉帹閫侊紝宸插畬鎴愭暟鎹� -->
+	<select id="shbdcAllList"
+		parameterType="com.xiaoshu.admin.model.ShMain"
+		resultType="com.xiaoshu.admin.model.ShMain">
+		select * from sh_sl a
+		<where>
+			querymc = #{querymc} and a.zt = '0'
+			<if test="ywh!=null and ywh !=''">
+				and a.ywh like "%"#{ywh,jdbcType=VARCHAR}"%"
+			</if>
+			<if test="ywzt!=null and ywzt !=''">
+				and a.ywzt = #{ywzt}
+			</if>
+			<if test="zl!=null and zl !=''">
+				and a.zl like "%"#{zl,jdbcType=VARCHAR}"%"
+			</if>
+			<if
+				test="starttime !=null and endtime !=null and starttime !='' and endtime !=''">
+				and a.djsj between #{starttime} and #{endtime}
+			</if>
+		</where>
+		LIMIT #{start},#{length}
+	</select>
+
+	<!-- 鏌ヨ绋庡姟鏀朵欢锛屽凡瀹屾垚鏁版嵁 -->
+	<select id="shbdcswList"
+		parameterType="com.xiaoshu.admin.model.ShMain"
+		resultType="com.xiaoshu.admin.model.ShMain">
+		select * from sh_sl a
+		<where>
+			a.swblr=#{swblr} and a.zt = '0'
+			<if test="ywh!=null and ywh !=''">
+				and a.ywh like "%"#{ywh,jdbcType=VARCHAR}"%"
+			</if>
+			<if test="ywSwzt!=null and ywSwzt !=''">
+				and a.ywSwzt = #{ywSwzt}
+			</if>
+			<if test="zl!=null and zl !=''">
+				and a.zl like "%"#{zl,jdbcType=VARCHAR}"%"
+			</if>
+			<if
+				test="starttime !=null and endtime !=null and starttime !='' and endtime !=''">
+				and a.djsj between #{starttime} and #{endtime}
+			</if>
+		</where>
+		LIMIT #{start},#{length}
+	</select>
+
+	<!-- 鏌ヨ鎴跨鏀朵欢锛屽凡瀹屾垚鏁版嵁鎬绘暟 -->
+	<select id="shbdcfgList"
+		parameterType="com.xiaoshu.admin.model.ShMain"
+		resultType="com.xiaoshu.admin.model.ShMain">
+		select * from sh_sl a
+		<where>
+			a.zt = '0'
+			<if test="ywh!=null and ywh !=''">
+				and a.ywh like "%"#{ywh,jdbcType=VARCHAR}"%"
+			</if>
+			<if test="ywFgzt!=null and ywFgzt !=''">
+				and a.ywFgzt = #{ywFgzt}
+			</if>
+			<if test="zl!=null and zl !=''">
+				and a.zl like "%"#{zl,jdbcType=VARCHAR}"%"
+			</if>
+			<if
+				test="starttime !=null and endtime !=null and starttime !='' and endtime !=''">
+				and a.djsj between #{starttime} and #{endtime}
+			</if>
+		</where>
+		LIMIT #{start},#{length}
+	</select>
+
+
+	<select id="selectSwList"
+		parameterType="com.xiaoshu.admin.model.ShMain"
+		resultType="com.xiaoshu.admin.model.ShMain">
+		select * from sh_sl
+		<where>
+			swblr='绋庡姟1'
+			<if test="ywh!=null and ywh !=''">
+				and ywh = #{ywh}
+			</if>
+		</where>
+	</select>
+
+	<update id="swUpdatefje"
+		parameterType="com.xiaoshu.admin.model.ShMain">
+		update sh_sl
+		<set>
+			<if test="swblr !=null and swblr != ''">
+				swblr = #{swblr},
+			</if>
+			<if test="swblrq !=null and swblrq != ''">
+				swblrq = #{swblrq},
+			</if>
+			<if test="ywzt !=null and ywzt != ''">
+				ywzt = #{ywzt},
+			</if>
+			<if test="ywSwzt !=null and ywSwzt != ''">
+				ywSwzt = #{ywSwzt},
+			</if>
+			<if test="ywFgzt !=null and ywFgzt != ''">
+				ywFgzt = #{ywFgzt},
+			</if>
+			<if test="zt !=null and zt != ''">
+				zt = #{zt}
+			</if>
+		</set>
+		where ywh = #{ywh}
+	</update>
+	<update id="swUpdateMfje"
+		parameterType="com.xiaoshu.admin.model.ShMain">
+		update sh_sl
+		<set>
+			<if test="mfje !=null and mfje != ''">
+				mfje = #{mfje},
+			</if>
+			<if test="smfje !=null and smfje != ''">
+				smfje = #{smfje},
+			</if>
+			<if test="swblr !=null and swblr != ''">
+				swblr = #{swblr},
+			</if>
+			<if test="swblrq !=null and swblrq != ''">
+				swblrq = #{swblrq},
+			</if>
+			<if test="ywzt !=null and ywzt != ''">
+				ywzt = #{ywzt},
+			</if>
+			<if test="ywSwzt !=null and ywSwzt != ''">
+				ywSwzt = #{ywSwzt},
+			</if>
+			<if test="ywFgzt !=null and ywFgzt != ''">
+				ywFgzt = #{ywFgzt},
+			</if>
+			<if test="zt !=null and zt != ''">
+				zt = #{zt}
+			</if>
+		</set>
+		where ywh = #{ywh}
+	</update>
+	<insert id="insertShSl"
+		parameterType="com.xiaoshu.admin.model.ShMain">
+		insert into sh_sl
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ywh != null">
+				ywh,
+			</if>
+			<if test="qllx != null">
+				qllx,
+			</if>
+			<if test="djyy != null">
+				djyy,
+			</if>
+			<if test="tdsyqr != null">
+				tdsyqr,
+			</if>
+			<if test="dytdmj != null">
+				dytdmj,
+			</if>
+			<if test="fttdmj != null">
+				fttdmj,
+			</if>
+			<if test="tdsyqssj != null">
+				tdsyqssj,
+			</if>
+			<if test="tdsyjssj != null">
+				tdsyjssj,
+			</if>
+			<if test="fdcjyjg != null">
+				fdcjyjg,
+			</if>
+			<if test="ghyt != null">
+				ghyt,
+			</if>
+			<if test="fwxz != null">
+				fwxz,
+			</if>
+			<if test="fwjg != null">
+				fwjg,
+			</if>
+			<if test="szc != null">
+				szc,
+			</if>
+			<if test="zcs != null">
+				zcs,
+			</if>
+			<if test="jzmj != null">
+				jzmj,
+			</if>
+			<if test="zyjzmj != null">
+				zyjzmj,
+			</if>
+			<if test="ftjzmj != null">
+				ftjzmj,
+			</if>
+			<if test="jgsj != null">
+				jgsj,
+			</if>
+			<if test="bdczh != null">
+				bdczh,
+			</if>
+			<if test="djsj != null">
+				djsj,
+			</if>
+			<if test="fzsj != null">
+				fzsj,
+			</if>
+			<if test="fj != null">
+				fj,
+			</if>
+			<if test="querymc != null">
+				querymc,
+			</if>
+			<if test="queryrq != null">
+				queryrq,
+			</if>
+			<if test="ywzt != null">
+				ywzt,
+			</if>
+			<if test="swblrq != null">
+				swblrq,
+			</if>
+			<if test="swblr != null">
+				swblr,
+			</if>
+			<if test="tssj != null">
+				tssj,
+			</if>
+			<if test="zl != null">
+				zl,
+			</if>
+			<if test="ywFgzt != null">
+				ywFgzt,
+			</if>
+			<if test="ywSwzt != null">
+				ywSwzt,
+			</if>
+			<if test="zt != null">
+				zt
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ywh != null">
+				#{ywh,jdbcType=VARCHAR},
+			</if>
+			<if test="qllx != null">
+				#{qllx,jdbcType=VARCHAR},
+			</if>
+			<if test="djyy != null">
+				#{djyy,jdbcType=INTEGER},
+			</if>
+			<if test="tdsyqr != null">
+				#{tdsyqr,jdbcType=VARCHAR},
+			</if>
+			<if test="dytdmj != null">
+				#{dytdmj,jdbcType=VARCHAR},
+			</if>
+			<if test="fttdmj != null">
+				#{fttdmj,jdbcType=VARCHAR},
+			</if>
+			<if test="tdsyqssj != null">
+				#{tdsyqssj,jdbcType=VARCHAR},
+			</if>
+			<if test="tdsyjssj != null">
+				#{tdsyjssj,jdbcType=VARCHAR},
+			</if>
+			<if test="fdcjyjg != null">
+				#{fdcjyjg,jdbcType=VARCHAR},
+			</if>
+			<if test="ghyt != null">
+				#{ghyt,jdbcType=VARCHAR},
+			</if>
+			<if test="fwxz != null">
+				#{fwxz,jdbcType=VARCHAR},
+			</if>
+			<if test="fwjg != null">
+				#{fwjg,jdbcType=VARCHAR},
+			</if>
+			<if test="szc != null">
+				#{szc,jdbcType=VARCHAR},
+			</if>
+			<if test="zcs != null">
+				#{zcs,jdbcType=VARCHAR},
+			</if>
+			<if test="jzmj != null">
+				#{jzmj,jdbcType=VARCHAR},
+			</if>
+			<if test="zyjzmj != null">
+				#{zyjzmj,jdbcType=VARCHAR},
+			</if>
+			<if test="ftjzmj != null">
+				#{ftjzmj,jdbcType=VARCHAR},
+			</if>
+			<if test="jgsj != null">
+				#{jgsj,jdbcType=VARCHAR},
+			</if>
+			<if test="bdczh != null">
+				#{bdczh,jdbcType=VARCHAR},
+			</if>
+			<if test="djsj != null">
+				#{djsj,jdbcType=VARCHAR},
+			</if>
+			<if test="fzsj != null">
+				#{fzsj,jdbcType=VARCHAR},
+			</if>
+			<if test="fj != null">
+				#{fj,jdbcType=VARCHAR},
+			</if>
+			<if test="querymc != null">
+				#{querymc,jdbcType=VARCHAR},
+			</if>
+			<if test="queryrq != null">
+				#{queryrq,jdbcType=VARCHAR},
+			</if>
+			<if test="ywzt != null">
+				#{ywzt,jdbcType=VARCHAR},
+			</if>
+			<if test="swblrq != null">
+				#{swblrq,jdbcType=VARCHAR},
+			</if>
+			<if test="swblr != null">
+				#{swblr,jdbcType=VARCHAR},
+			</if>
+			<if test="tssj != null">
+				#{tssj,jdbcType=VARCHAR},
+			</if>
+			<if test="zl != null">
+				#{zl,jdbcType=VARCHAR},
+			</if>
+			<if test="ywSwzt != null">
+				#{ywSwzt,jdbcType=VARCHAR},
+			</if>
+			<if test="ywFgzt != null">
+				#{ywFgzt,jdbcType=VARCHAR},
+			</if>
+			<if test="zt != null">
+				#{zt,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</insert>
+
+	<insert id="insertshQlr"
+		parameterType="com.xiaoshu.admin.model.QlrTs">
+		insert into sh_qlr
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="qlrywh != null">
+				qlrywh,
+			</if>
+			<if test="qlrbdcqzh != null">
+				qlrbdcqzh,
+			</if>
+			<if test="qlr != null">
+				qlr,
+			</if>
+			<if test="zjzl != null">
+				zjzl,
+			</if>
+			<if test="qlrlx != null">
+				qlrlx,
+			</if>
+			<if test="zjhm != null">
+				zjhm,
+			</if>
+			<if test="bdclx != null">
+				bdclx,
+			</if>
+			<if test="dh != null">
+				dh,
+			</if>
+			<if test="dz != null">
+				dz,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="qlrywh != null">
+				#{qlrywh,jdbcType=VARCHAR},
+			</if>
+			<if test="qlrbdcqzh != null">
+				#{qlrbdcqzh,jdbcType=VARCHAR},
+			</if>
+			<if test="qlr != null">
+				#{qlr,jdbcType=INTEGER},
+			</if>
+			<if test="zjzl != null">
+				#{zjzl,jdbcType=VARCHAR},
+			</if>
+			<if test="qlrlx != null">
+				#{qlrlx,jdbcType=VARCHAR},
+			</if>
+			<if test="zjhm != null">
+				#{zjhm,jdbcType=VARCHAR},
+			</if>
+			<if test="bdclx != null">
+				#{bdclx,jdbcType=VARCHAR},
+			</if>
+			<if test="dh != null">
+				#{dh,jdbcType=VARCHAR},
+			</if>
+			<if test="dz != null">
+				#{dz,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<insert id="insertShYwr"
+		parameterType="com.xiaoshu.admin.model.YwrTs">
+		insert into sh_ywr
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ywrywh != null">
+				ywrywh,
+			</if>
+			<if test="ywrbdcqzh != null">
+				ywrbdcqzh,
+			</if>
+			<if test="ywrzjzl != null">
+				ywrzjzl,
+			</if>
+			<if test="ywrqlr != null">
+				ywrqlr,
+			</if>
+			<if test="ywrqlrlx != null">
+				ywrqlrlx,
+			</if>
+			<if test="ywrzjhm != null">
+				ywrzjhm,
+			</if>
+			<if test="ywrbdclx != null">
+				ywrbdclx,
+			</if>
+			<if test="ywrdh != null">
+				ywrdh,
+			</if>
+			<if test="ywrdz != null">
+				ywrdz,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ywrywh != null">
+				#{ywrywh,jdbcType=VARCHAR},
+			</if>
+			<if test="ywrbdcqzh != null">
+				#{ywrbdcqzh,jdbcType=VARCHAR},
+			</if>
+			<if test="ywrzjzl != null">
+				#{ywrzjzl,jdbcType=VARCHAR},
+			</if>
+			<if test="ywrqlr != null">
+				#{ywrqlr,jdbcType=INTEGER},
+			</if>
+			<if test="ywrqlrlx != null">
+				#{ywrqlrlx,jdbcType=VARCHAR},
+			</if>
+			<if test="ywrzjhm != null">
+				#{ywrzjhm,jdbcType=VARCHAR},
+			</if>
+			<if test="ywrbdclx != null">
+				#{ywrbdclx,jdbcType=VARCHAR},
+			</if>
+			<if test="ywrdh != null">
+				#{ywrdh,jdbcType=VARCHAR},
+			</if>
+			<if test="ywrdz != null">
+				#{ywrdz,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<select id="selectMain"
+		parameterType="com.xiaoshu.admin.model.ShMain"
+		resultType="com.xiaoshu.admin.model.ShMain">
+		select * from sh_sl a
+		<where>
+			zt = '0'
+			<if test="ywh!=null and ywh !=''">
+				and ywh like "%"#{ywh,jdbcType=VARCHAR}"%"
+			</if>
+			<if test="querymc!=null and querymc !=''">
+				and querymc like "%"#{querymc,jdbcType=VARCHAR}"%"
+			</if>
+			<if test="swblr !=null and swblr !=''">
+				and swblr like "%"#{swblr,jdbcType=VARCHAR}"%"
+			</if>
+			<if
+				test="starttime != null and starttime != '' and endtime !=null and endtime!=''">
+				and ifnull(queryrq,'yyyy-MM-dd') between #{starttime} and #{endtime}
+			</if>
+		</where>
+		LIMIT #{start},#{length}
+	</select>
+	<select id="findMainCount"
+		parameterType="com.xiaoshu.admin.model.ShMain"
+		resultType="java.lang.Integer">
+		select count(*) from sh_sl
+		<where>
+			zt = '0'
+			<if test="ywh!=null and ywh !=''">
+				and ywh like "%"#{ywh,jdbcType=VARCHAR}"%"
+			</if>
+			<if test="querymc!=null and querymc !=''">
+				and querymc like "%"#{querymc,jdbcType=VARCHAR}"%"
+			</if>
+			<if test="swblr !=null and swblr !=''">
+				and swblr like "%"#{swblr,jdbcType=VARCHAR}"%"
+			</if>
+			<if
+				test="starttime != null and starttime != '' and endtime !=null and endtime!=''">
+				and ifnull(queryrq,'yyyy-MM-dd') between #{starttime} and #{endtime}
+			</if>
+		</where>
+	</select>
+</mapper>

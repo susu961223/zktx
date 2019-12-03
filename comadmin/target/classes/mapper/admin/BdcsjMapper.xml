@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoshu.admin.oracle.mapper.BdcsjMapper">
+    <select id="selectQzcx" parameterType="com.xiaoshu.admin.model.Bdcsj" resultType="com.xiaoshu.admin.model.Bdcsj">
+    	SELECT * FROM (SELECT A.*, ROWNUM RN FROM (SELECT DISTINCT bdcqzh FROM fdcq2
+    	<where>			
+			<if test="bdcqzh !=null and bdcqzh !=''">
+				bdcqzh like '%'||#{bdcqzh,jdbcType=VARCHAR}||'%'
+			</if>
+		</where>
+    	order by bdcqzh desc) A WHERE ROWNUM &lt;= #{length}) where RN &gt;= #{start}		
+    </select>
+    
+    <select id="findQzcx" parameterType="com.xiaoshu.admin.model.Bdcsj" resultType="java.lang.Integer">
+      select count(*)   from fdcq2 f 
+    <where>
+      <if test="bdcqzh != null and bdcqzh != ''">
+            f.bdcqzh like '%'||#{bdcqzh,jdbcType=VARCHAR}||'%'
+      </if>
+      </where>
+    </select>
+
+    <select id="selectBdcsjList" parameterType="com.xiaoshu.admin.model.Bdcsj" resultType="com.xiaoshu.admin.model.Bdcsj">
+      select Q.slbh, wmsys.wm_concat(to_char(Q.qlrmc)) as qlrmc, wmsys.wm_concat(to_char(Q.zjhM)) as zjhm, Q.bdcqzh,
+        Q.bdcdyh, Q.zl, Q.fzrq, Q.fwmj,getfwyt(Q.ghyt) as ghyt 
+          from  
+          (select distinct s.ywh as slbh, s.qlrmc as qlrmc, s.zjh as zjhm, f.bdcqzh as bdcqzh, f.bdcdyh as bdcdyh,
+        f.fdzl as zl, f.djsj as fzrq, f.jzmj as fwmj, f.ghyt
+    from
+        qlr s, fdcq2 f 
+    WHERE
+        f.bdcdyh=s.bdcdyh   and f.qszt = '1' and s.qlrlx='1' )  Q 
+    <where>
+    1=1
+      <if test="bdcqzh != null and bdcqzh != ''">
+          and  Q.bdcqzh = #{bdcqzh}
+      </if>
+      </where>
+      group by  Q.slbh, Q.bdcqzh, Q.bdcdyh, Q.zl, Q.fzrq,   Q.ghyt, Q.fwmj
+    </select>   
+        
+ <select id="selectCf" parameterType="com.xiaoshu.admin.model.Bdcsj" resultType="com.xiaoshu.admin.model.Bdcsj">
+     select distinct a.bdcdyh,nvl(a.cfjg,' ')as cfjg,a.cfqssj,a.cfjssj from cfdj a ,fdcq2 f
+     <where>
+      a.bdcdyh=f.bdcdyh and a.qszt='1'  and f.qszt='1'
+      <if test="bdcqzh != null and bdcqzh != ''">
+         and f.bdcqzh= #{bdcqzh}
+      </if>
+      </where>
+    </select>
+    
+    <select id="selectDy" parameterType="com.xiaoshu.admin.model.Bdcsj" resultType="com.xiaoshu.admin.model.Bdcsj">
+     select distinct a.bdcdyh,nvl(a.dyr,' ')as dyr, to_char(case when a.zgzqse is not null then a.zgzqse else a.bdbzzqse end ,'fm9999999999990.000099')  as zgzqse,nvl(a.bdcdjzmh,' ')as bdcdjzmh,a.zwlxqssj,a.zwlxjssj from dyaq a ,fdcq2 f 
+     <where>
+      a.bdcdyh=f.bdcdyh and a.qszt ='1'  and f.qszt='1'
+      <if test="bdcqzh != null and bdcqzh != ''">
+         and f.bdcqzh= #{bdcqzh}
+      </if>
+      </where>
+    </select>
+     
+     <select id="findByFcxx" resultType="com.xiaoshu.admin.model.Fcxx" parameterType="com.xiaoshu.admin.model.Fcxx">
+		select distinct f.ywh as slbh, s.qlrmc as qlrmc,s.zjh as zjhm,f.bdcqzh as bdczh,f.bdcdyh as bdcdyh,nvl(f.fdzl,' ') as zl,f.djsj as fzrq,getfwyt(f.ghyt) as ghyt 
+		from  qlr s,fdcq2 f 
+      <where>
+		 	f.bdcdyh=s.bdcdyh and f.qszt = '1' and s.qlrlx='1'
+		 	
+		 	<if test="qlrmc != null">
+                <bind name="name" value="'%'+qlrmc+'%'"/>     
+				and s.qlrmc like #{name} 
+			</if>
+			<if test="zjhm != null">
+                <bind name="zjhm" value="'%'+zjhm+'%'"/>
+                and (s.zjh like #{zjhm}                
+            </if>
+            <if test="zjhmf != null">
+	            <bind name="zjhmf" value="'%'+zjhmf+'%'"/>
+	                or s.zjh like #{zjhmf})
+               </if>
+	
+		</where>
+	</select>
+	
+	<select id="selectBdcAllListByUser" parameterType="com.xiaoshu.admin.model.Bdcquery" resultType="com.xiaoshu.admin.model.Bdcquery">
+	 SELECT * FROM (SELECT A.*, ROWNUM RN FROM (SELECT ywh,nvl(qlr,' ') as qlr,nvl(zjh,' ') as zjh,nvl(bdczh,' ') as bdczh,nvl(zl,' ') as zl,nvl(fwyt,' ') as fwyt,nvl(queryrq,' ') as queryrq,nvl(querymc,' ') as querymc FROM BDC_QUERY where ywzt='1' order by ywh desc) A WHERE ROWNUM &lt;= #{length})
+		<where>
+			RN &gt;= #{start}
+			<if test="ywh !=null and ywh !=''">
+				and ywh like '%'||#{ywh}||'%'
+			</if>
+		</where>
+	</select>
+	
+	<select id="findCountBdcAllListByUser" parameterType="com.xiaoshu.admin.model.Bdcquery" resultType="java.lang.Integer">
+		select count(*) from BDC_QUERY
+		<where>
+			querymc = #{querymc} and ywzt='1'
+			<if test="ywh !=null and ywh !=''">
+				and ywh like '%'||#{ywh}||'%'
+			</if>
+		</where>
+	</select>
+     
+     <select id="selectBdcquery" parameterType="com.xiaoshu.admin.model.Bdcquery" resultType="com.xiaoshu.admin.model.Bdcquery">
+		select t.ywh,t.qlr,t.zjh,t.bdczh,t.dyzt,t.cfzt,t.querymc,t.queryrq,d.bdcdyh,d.zl,d.yt fwyt ,d.mj fwmj
+ 		from bdc_query t,bdc_dhgl d  
+		<where>
+			t.bdczh=d.bdczh
+			<if test="ywh !=null and ywh !=''">
+				 and t.ywh = #{ywh}
+			</if>
+		</where>
+	</select>
+     
+	<select id="selectBdcZy" parameterType="com.xiaoshu.admin.model.Bdczy" resultType="com.xiaoshu.admin.model.Bdczy">
+		select * from bdc_zy
+		<where>
+			<if test="ywh !=null and ywh !=''">
+				 ywh = #{ywh}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectBdcDy" parameterType="com.xiaoshu.admin.model.Bdcdy" resultType="com.xiaoshu.admin.model.Bdcdy">
+		select * from bdc_dy
+		<where>
+			<if test="ywh !=null and ywh !=''">
+				 ywh = #{ywh}
+			</if>
+		</where>
+	</select>
+	
+    <insert id="insertBdcfile" parameterType="com.xiaoshu.admin.model.Bdcfile" >
+    insert into bdc_file
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="binid != null" >
+        binid,
+      </if>
+      <if test="ywh != null" >
+        ywh,
+      </if>
+      <if test="filename != null" >
+        filename,
+      </if>
+      <if test="filesize != null" >
+        filesize,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="extname != null" >
+        extname,
+      </if>
+      <if test="path != null" >
+        path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="binid != null" >
+        #{binid,jdbcType=VARCHAR},
+      </if>
+      <if test="ywh != null" >
+        #{ywh,jdbcType=VARCHAR},
+      </if>
+      <if test="filename != null" >
+        #{filename,jdbcType=VARCHAR},
+      </if>      
+      <if test="filesize != null" >
+        #{filesize,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="extname != null" >
+        #{extname,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null" >
+        #{path,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+   <update id="insertBdcquery" parameterType="com.xiaoshu.admin.model.Bdcquery">
+		update Bdc_Query 
+		<trim prefix="set" suffixOverrides=",">
+     	 <if test="qlr!=null and qlr!=''"> qlr = #{qlr},</if>
+     	 <if test="zjh!=null and zjh!=''"> zjh = #{zjh},</if>
+     	 <if test="bdczh!=null and bdczh!=''"> bdczh = #{bdczh},</if>
+     	 <if test="querymc!=null and querymc!=''"> querymc = #{querymc},</if>
+     	 <if test="queryrq!=null and queryrq!=''"> queryrq = #{queryrq},</if>
+     	 <if test="ywlx!=null and ywlx!=''"> ywlx = #{ywlx},</if>
+     	 <if test="dyzt!=null and dyzt!=''"> dyzt = #{dyzt},</if>
+     	 <if test="cfzt!=null and cfzt!=''"> cfzt = #{cfzt},</if>
+     	 <if test="ywzt!=null and ywzt!=''"> ywzt = #{ywzt},</if>
+    	</trim>
+    	 <where>
+			<if test="ywh !=null and ywh !=''">
+					 ywh = #{ywh}
+			</if>
+		 </where>
+	</update>
+   <!-- <insert id="insertBdcquery" parameterType="com.xiaoshu.admin.model.Bdcquery" >
+    insert into bdc_query
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ywh != null" >
+        ywh,
+      </if>
+      <if test="qlr != null" >
+        qlr,
+      </if>
+      <if test="zjh != null" >
+        zjh,
+      </if>
+      <if test="bdczh != null" >
+        bdczh,
+      </if>
+      <if test="bdcdyh != null" >
+        bdcdyh,
+      </if>
+      <if test="zl != null" >
+        zl,
+      </if>
+      <if test="fwyt != null" >
+        fwyt,
+      </if>
+      <if test="fzrq != null" >
+        fzrq,
+      </if>
+      <if test="querymc != null" >
+        querymc,
+      </if>
+       <if test="queryrq != null" >
+        queryrq,
+      </if>
+      <if test="binid != null" >
+        binid,
+      </if>
+       <if test="fwmj != null" >
+        fwmj,
+      </if>
+      <if test="ywlx != null" >
+        ywlx,
+      </if>
+      <if test="dyzt != null" >
+        dyzt,
+      </if>
+      <if test="cfzt != null" >
+        cfzt,
+      </if>
+      <if test="ywzt != null" >
+        ywzt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ywh != null" >
+      	#{ywh,jdbcType=VARCHAR},
+      </if>
+      <if test="qlr != null" >
+        #{qlr,jdbcType=VARCHAR},
+      </if>
+      <if test="zjh != null" >
+        #{zjh,jdbcType=INTEGER},
+      </if>
+      <if test="bdczh != null" >
+        #{bdczh,jdbcType=VARCHAR},
+      </if>
+      <if test="bdcdyh != null" >
+        #{bdcdyh,jdbcType=VARCHAR},
+      </if>
+      <if test="zl != null" >
+        #{zl,jdbcType=VARCHAR},
+      </if>
+      <if test="fwyt != null" >
+        #{fwyt,jdbcType=VARCHAR},
+      </if>
+      <if test="fzrq != null" >
+        #{fzrq,jdbcType=VARCHAR},
+      </if>
+      <if test="querymc != null" >
+        #{querymc,jdbcType=VARCHAR},
+      </if>
+      <if test="queryrq != null" >
+        #{queryrq,jdbcType=VARCHAR},
+      </if>
+      <if test="binid != null" >
+        #{binid,jdbcType=VARCHAR},
+      </if>
+      <if test="fwmj != null" >
+        #{fwmj,jdbcType=VARCHAR},
+      </if>
+       <if test="ywlx != null" >
+        #{ywlx,jdbcType=VARCHAR},
+      </if>
+      <if test="dyzt != null" >
+        #{dyzt,jdbcType=VARCHAR},
+      </if>
+      <if test="cfzt != null" >
+        #{cfzt,jdbcType=VARCHAR},
+      </if>
+      <if test="ywzt != null" >
+        #{ywzt,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>  -->
+  
+  <insert id="insertBdcdhgl" parameterType="com.xiaoshu.admin.model.Bdcdhgl" >
+    insert into BDC_DHGL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bdczh != null" >
+        bdczh,
+      </if>
+      <if test="bdcdyh != null" >
+        bdcdyh,
+      </if>
+      <if test="zl != null" >
+        zl,
+      </if>
+      <if test="yt != null" >
+        yt,
+      </if>
+      <if test="mj != null" >
+        mj,
+      </if>      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bdczh != null" >
+      	#{bdczh,jdbcType=VARCHAR},
+      </if>
+      <if test="bdcdyh != null" >
+        #{bdcdyh,jdbcType=VARCHAR},
+      </if>
+      <if test="zl != null" >
+        #{zl,jdbcType=INTEGER},
+      </if>
+      <if test="yt != null" >
+        #{yt,jdbcType=VARCHAR},
+      </if>
+      <if test="mj != null" >
+        #{mj,jdbcType=VARCHAR},
+      </if>     
+    </trim>
+  </insert> 
+  
+  <insert id="insertBdcJtQuery" parameterType="com.xiaoshu.admin.model.Fcxx" >
+    insert into bdc_jtquery
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bdcywh != null" >
+        bdcywh,
+      </if>
+      <if test="qlrmc != null" >
+        qlrmc,
+      </if>
+      <if test="zjhm != null" >
+        zjhm,
+      </if>
+      <if test="bdczh != null" >
+        bdczh,
+      </if>
+      <if test="zl != null" >
+        zl,
+      </if>
+      <if test="fzrq != null" >
+        fzrq,
+      </if>
+      <if test="ghyt != null" >
+        ghyt,
+      </if> 
+      <if test="bdcdyh != null">
+      	bdcdyh,
+      </if>  
+       <if test="qlrlx != null">
+      	qlrlx,
+      </if>   
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bdcywh != null" >
+      	#{bdcywh,jdbcType=VARCHAR},
+      </if>
+      <if test="qlrmc != null" >
+        #{qlrmc,jdbcType=VARCHAR},
+      </if>
+      <if test="zjhm != null" >
+        #{zjhm,jdbcType=INTEGER},
+      </if>
+      <if test="bdczh != null" >
+        #{bdczh,jdbcType=VARCHAR},
+      </if>
+      <if test="zl != null" >
+        #{zl,jdbcType=VARCHAR},
+      </if>
+      <if test="fzrq != null" >
+        #{fzrq,jdbcType=VARCHAR},
+      </if>
+      <if test="ghyt != null" >
+        #{ghyt,jdbcType=VARCHAR},
+      </if>
+      <if test ="bdcdyh !=null">
+      	#{bdcdyh,jdbcType=VARCHAR},
+      </if>
+       <if test ="qlrlx !=null">
+      	#{qlrlx,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert> 
+
+     <insert id="insertBdcdy" parameterType="com.xiaoshu.admin.model.Bdcquery" >
+    insert into bdc_dy
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ywh != null" >
+        ywh,
+      </if>
+      <if test="dyr != null" >
+        dyr,
+      </if>
+      <if test="dyje != null" >
+        dyje,
+      </if>
+      <if test="dyrzjh != null" >
+        dyrzjh,
+      </if>
+      <if test="dykssj != null" >
+        dykssj,
+      </if>
+      <if test="dyjssj != null" >
+        dyjssj,
+      </if>
+      <if test="dyzjle != null" >
+        dyzjle,
+      </if>
+       <if test="zydyrq != null" >
+        zydyrq,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ywh != null" >
+      	#{ywh,jdbcType=VARCHAR},
+      </if>
+      <if test="dyr != null" >
+        #{dyr,jdbcType=VARCHAR},
+      </if>
+      <if test="dyje != null" >
+        #{dyje,jdbcType=INTEGER},
+      </if>
+      <if test="dyrzjh != null" >
+        #{dyrzjh,jdbcType=VARCHAR},
+      </if>
+      <if test="dykssj != null" >
+        #{dykssj,jdbcType=DATE},
+      </if>
+      <if test="dyjssj != null" >
+        #{dyjssj,jdbcType=DATE},
+      </if>
+      <if test="dyzjle != null" >
+        #{dyzjle,jdbcType=VARCHAR},
+      </if>
+       <if test="zydyrq != null" >
+        #{zydyrq,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+     <insert id="insertBdczy" parameterType="com.xiaoshu.admin.model.Bdczy" >
+    insert into bdc_zy
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ywh != null" >
+        ywh,
+      </if>
+      <if test="qlr != null" >
+        qlr,
+      </if>
+      <if test="zjh != null" >
+        zjh,
+      </if>
+      <if test="lxdh != null" >
+        lxdh,
+      </if>
+      <if test="zjlb != null" >
+        zjlb,
+      </if>
+      <if test="zyrq != null" >
+        zyrq,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ywh != null" >
+      	#{ywh,jdbcType=VARCHAR},
+      </if>
+      <if test="qlr != null" >
+        #{qlr,jdbcType=VARCHAR},
+      </if>
+      <if test="zjh != null" >
+        #{zjh,jdbcType=INTEGER},
+      </if>
+      <if test="lxdh != null" >
+        #{lxdh,jdbcType=VARCHAR},
+      </if>
+      <if test="zjlb != null" >
+        #{zjlb,jdbcType=VARCHAR},
+      </if>
+      <if test="zyrq != null" >
+        #{zyrq,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  
+  
+</mapper>

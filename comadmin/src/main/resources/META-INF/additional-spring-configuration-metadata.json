@@ -1,0 +1,197 @@
+{"properties": [
+  {
+    "name": "spring.datasource.jdbc-url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.jdbc-url'"
+  },
+  {
+    "name": "spring.datasource.jdbc-url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.jdbc-url'"
+  },
+  {
+    "name": "spring.datasource.maximum-pool-size",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.maximum-pool-size'"
+  },
+  {
+    "name": "spring.datasource.maximum-pool-size",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.maximum-pool-size'"
+  },
+  {
+    "name": "mybatis-plus.global-config.refresh-mapper",
+    "type": "java.lang.String",
+    "description": "A description for 'mybatis-plus.global-config.refresh-mapper'"
+  },
+  {
+    "name": "mybatis-plus.global-config.refresh-mapper",
+    "type": "java.lang.String",
+    "description": "A description for 'mybatis-plus.global-config.refresh-mapper'"
+  },
+  {
+    "name": "spring.datasource.maximum-pool-size",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.maximum-pool-size'"
+  },
+  {
+    "name": "spring.second-datasource.url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.second-datasource.url'"
+  },
+  {
+    "name": "spring.second-datasource.username",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.second-datasource.username'"
+  },
+  {
+    "name": "spring.second-datasource.password",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.second-datasource.password'"
+  },
+  {
+    "name": "spring.second-datasource.driver-class-name",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.second-datasource.driver-class-name'"
+  },
+  {
+    "name": "spring.second-datasource.maximum-pool-size",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.second-datasource.maximum-pool-size'"
+  },
+  {
+    "name": "spring.write.url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.write.url'"
+  },
+  {
+    "name": "spring.write.username",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.write.username'"
+  },
+  {
+    "name": "spring.write.password",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.write.password'"
+  },
+  {
+    "name": "spring.write.driver-class-name",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.write.driver-class-name'"
+  },
+  {
+    "name": "spring.write.maximum-pool-size",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.write.maximum-pool-size'"
+  },
+  {
+    "name": "spring.read.url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.read.url'"
+  },
+  {
+    "name": "spring.read.username",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.read.username'"
+  },
+  {
+    "name": "spring.read.password",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.read.password'"
+  },
+  {
+    "name": "spring.read.driver-class-name",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.read.driver-class-name'"
+  },
+  {
+    "name": "spring.datasource.write.url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.write.url'"
+  },
+  {
+    "name": "spring.datasource.write.username",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.write.username'"
+  },
+  {
+    "name": "spring.datasource.write.password",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.write.password'"
+  },
+  {
+    "name": "spring.datasource.write.driver-class-name",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.write.driver-class-name'"
+  },
+  {
+    "name": "spring.datasource.write.maximum-pool-size",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.write.maximum-pool-size'"
+  },
+  {
+    "name": "spring.datasource.read.url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.read.url'"
+  },
+  {
+    "name": "spring.datasource.read.username",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.read.username'"
+  },
+  {
+    "name": "spring.datasource.read.password",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.read.password'"
+  },
+  {
+    "name": "spring.datasource.read.driver-class-name",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.read.driver-class-name'"
+  },
+  {
+    "name": "spring.third-datasource.url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.third-datasource.url'"
+  },
+  {
+    "name": "spring.third-datasource.url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.third-datasource.url'"
+  },
+  {
+    "name": "spring.three-datasource.url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.three-datasource.url'"
+  },
+  {
+    "name": "spring.three-datasource.url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.three-datasource.url'"
+  },
+  {
+    "name": "spring.datasource.maximum-pool-size",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.maximum-pool-size'"
+  },
+  {
+    "name": "spring.second-datasource.url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.second-datasource.url'"
+  },
+  {
+    "name": "mybatis-plus.global-config.db-config.column-underline",
+    "type": "java.lang.String",
+    "description": "A description for 'mybatis-plus.global-config.db-config.column-underline'"
+  },
+  {
+    "name": "spring.mvc.static-resources-static-locations",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.mvc.static-resources-static-locations'"
+  },
+  {
+    "name": "my.config.static-location",
+    "type": "java.lang.String",
+    "description": "A description for 'my.config.static-location'"
+  }
+]}

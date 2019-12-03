@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="ie-stand">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<title>不动产收件</title>
+<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}" media="all">
+<link rel="stylesheet" th:href="@{/static/css/set2.css}" type="text/css" media="all" />
+<link rel="stylesheet" th:href="@{/static/css/bootstrap.css}" media="all" />
+<link rel="stylesheet" th:href="@{/static/layui/css/layui.css}"	media="all" />
+<script type="text/javascript" th:src="@{/static/js/jquery-2.1.1.js}"></script> 
+<script type="text/javascript" th:src="@{/static/js/bootstrap.js}" ></script>
+<script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{/static/admin/js/tools.js}"></script>
+<script type="text/javascript" th:src="@{/static/laydate/laydate.js}"></script>
+<style type="text/css">
+#top_cx {
+	position: relative;
+	width: 95%;
+	margin: 20px auto;
+	border: 1px solid #44ACB6;
+	height: 60px;
+	border-radius: 25px;
+}
+
+#top {
+	position: relative;
+	width: 95%;
+	margin: 20px auto;
+	border-radius: 25px;
+}
+
+#topdxs {
+	position: relative;
+	width: 95%;
+	margin: 20px auto;
+	border-radius: 25px;
+	display: none;
+}
+
+#main {
+	position: relative;
+	width: 95%;
+	margin: 20px auto;
+	border: 1px solid #44ACB6;
+	height: 200px;
+	border-radius: 25px;
+}
+
+#bottom {
+	position: relative;
+	width: 95%;
+	margin: 20px auto;
+	border: 0px solid #44ACB6;
+	height: 100px;
+	/*min-height: 516px;*/
+}
+
+#leftContent {
+	float: left;
+	/*float:center;*/
+	width: 95%;
+	border: 1px solid #44ACB6;
+	margin-top: 1%;
+	margin-left: 0.2%;
+	/*height:395px;*/
+}
+
+#rightContent {
+	float: right;
+	width: 76%;
+	height: 337px;
+	margin: 10px 40px 20px 10px;
+	border: 0px solid #44ACB6;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.fzbutton {
+	width: 60px;
+	height: 30px;
+	border: 0;
+	background-color: #44ACB6;
+	border-radius: 5px;
+	color: #fff;
+	/*display: none;*/
+}
+
+#s_top {
+	display: inline-block;
+	vertical-align: top;
+	float: right;
+	height: 15%;
+	width: 100%;
+	border: 0px solid #44ACB6;
+}
+
+#s_bottom {
+	display: inline-block;
+	vertical-align: top;
+	float: right;
+	height: 85%;
+	width: 100%;
+	border: 0px solid #44ACB6;
+	margin-top: 12px;
+}
+
+#rightLeftContent1 {
+	float: left;
+	width: 10%;
+	border: 1px solid #44ACB6;
+}
+
+#check {
+	width: 15px;
+	height: 15px;
+}
+
+#rightRightContent {
+	float: right;
+	width: 90%;
+	border: 0px solid #44ACB6;
+}
+
+.clear {
+	clear: both;
+} /* 清除空白盒子的所有浮动 */
+.clear1 {
+	clear: both;
+} /* 清除空白盒子的所有浮动 */
+#top_top, #main_top, #pbottom_top {
+	position: relative;
+	width: 95%;
+	margin: 20px auto;
+	border: 1px solid #567d9a;
+	height: 30px;
+	background-color: #567d9a;
+	margin-bottom: 0px;
+	margin-top: 20px;
+}
+
+#top {
+	margin-top: 0px;
+	padding-bottom: 20px !important;
+}
+
+.tit {
+	text-align: center;
+	font-size: 23px;
+	color: #fff;
+}
+
+#pbottom_top_s {
+	position: relative;
+	width: 89%;
+	/* margin: 10px auto; */
+	border: 1px solid #44ACB6;
+	height: 26px;
+	background-color: #44ACB6;
+	border-radius: 5px;
+	/* margin-left: 5px; */
+	display: inline-block;
+	vertical-align: top;
+}
+
+#pbottom_top_s1 {
+	display: inline-block;
+	vertical-align: top;
+	margin: 10px auto;
+	float: right;
+	height: 100%;
+	width: 9%;
+	border: 0px solid #44ACB6;
+}
+
+#top_dy {
+	position: relative;
+	width: 95%;
+	margin: 20px auto;
+	border: 1px solid #567d9a;
+	height: 30px;
+	background-color: #567d9a;
+	border-radius: 10px;
+	display: none;
+}
+
+#dyzt {
+	position: relative;
+	width: 95%;
+	margin: 20px auto;
+	border: 1px solid #44ACB6;
+	border-radius: 13px;
+	text-align: left;
+	display: none;
+}
+
+#cxtj {
+	position: relative;
+	width: 95%;
+	margin: 30px auto;
+	border: 1px solid #44ACB6;
+	height: 110px;
+	border-radius: 25px;
+	text-align: left;
+}
+
+#cxtj>div {
+	display: inline-block;
+}
+
+.cxtj {
+	position: absolute;
+	top: -9px;
+	left: 2%;
+	font-size: 18px;
+	display: inline-block;
+	background-color: #fff;
+	padding: 0 10px;
+	color: #44ACB6;
+}
+
+#cxzy {
+	position: relative;
+	width: 95%;
+	height: 85px;
+	margin: 30px auto;
+	border: 1px solid #44ACB6;
+	border-radius: 25px;
+	text-align: left;
+	padding: 0 0 0 10px;
+	display: none;
+}
+
+#cxzy>div {
+	display: inline-block;
+}
+
+.cxzy {
+	position: absolute;
+	top: -9px;
+	left: 2%;
+	font-size: 18px;
+	display: inline-block;
+	background-color: #fff;
+	padding: 0 10px;
+	color: #44ACB6;
+}
+
+.scfjbutton {
+	width: 80%;
+	height: 30px;
+	border: 0;
+	background-color: #567d9a;
+	border-radius: 5px;
+	color: #fff;
+}
+
+.jtcxbutton {
+	width: 75px;
+	height: 35px;
+	border: 0;
+	background-color: #64D2C8;
+	border-radius: 5px;
+	color: #fff;
+}
+
+#mask {
+	position: absolute;
+	top: 0px;
+	background-color: #000;
+	z-index: 1002;
+	left: 0px;
+	opacity: 0.5;
+	display: none;
+}
+
+#loading {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	width: 40%;
+}
+
+.table tr, td, th {
+	border: 1px solid !important;
+	text-align: center !important;
+}
+
+#tab td {
+	width: 15%;
+}
+
+table tr {
+	height: 40px;
+}
+
+.row form-group {
+	
+}
+
+.fj {
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.tsButton {
+	width: 60px;
+	height: 35px;
+	border: 0;
+	background-color: #44ACB6;
+	border-radius: 5px;
+	color: #fff;
+}
+
+.txtS {
+	font-size: 18px;
+	font-weight: bold;
+	color: #44ACB6;
+}
+
+.shoushui {
+	display: block;
+	text-align: right;
+	width: 97%;
+	margin-top: 10px;
+}
+.tableS{
+	border: 0px solid #080808;
+}
+#mfje,#smfje{
+	height:28px;
+	width:170px;
+}
+</style>
+</head>
+<body >
+<div style="width: 99%;margin-left:5px;">
+		<div class="shoushui" id="mai">
+			<span class="txtS" id="spanmfje">买方收税金额:</span>
+							&nbsp;
+			<input name="mfje" id="mfje">&nbsp;<span style="font-size: 18px;">元</span>&nbsp;&nbsp;
+			<span class="txtS" id="spansmfje">卖方收税金额:</span>
+							&nbsp;
+			<input name="smfje" id="smfje">&nbsp;<span style="font-size: 18px;">元</span>&nbsp;&nbsp;
+			<button type="button" class="tsButton" onclick="bc()"  id="smfButton">保存</button>
+		</div>	
+
+<!-- 详细信息-----住宅------------start -->
+	<div id="top_top" align="center">
+			<label class="tit"> 不 动 产 信 息
+			</label>
+		</div>
+		<div id="top">
+			<table border="1" id="tab" style="width: 100%; height: 100%">
+				<tbody id="tableBody1" style="width: 95%; height: 100%">
+					<tr>
+						<td style="font-weight: bold; width: 17%;">业务号：</td>
+						<td colspan="3" style="width: 29%" id="ywh"></td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; width: 17%;">权利类型：</td>
+						<td style="width: 29%" id="qllx"></td>
+						<td style="font-weight: bold; width: 17%;">登记原因：</td>
+						<td style="width: 29%" id="djyy"></td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; width: 17%;">土地使用权人：</td>
+						<td style="width: 29%" id="tdsyqr"></td>
+						<td style="font-weight: bold; width: 17%;">独用土地面积：</td>
+						<td style="width: 29%" id="dytdmj"></td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; width: 17%;">分摊土地面积：</td>
+						<td style="width: 29%" id="fttdmj"></td>
+						<td style="font-weight: bold; width: 17%;">房地产交易价格：</td>
+						<td style="width: 29%" id="fdcjyjg"></td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; width: 17%;">土地使用起始时间：</td>
+						<td style="width: 29%" id="tdsyqssj"></td>
+						<td style="font-weight: bold; width: 17%;">土地使用结束时间：</td>
+						<td style="width: 29%" id="tdsyjssj"></td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; width: 17%;">规划用途：</td>
+						<td style="width: 29%" id="ghyt"></td>
+						<td style="font-weight: bold;">房屋性质：</td>
+						<td style="width: 29%" id="fwxz"></td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold;">所在层：</td>
+						<td style="width: 29%" id="szc"></td>
+						<td style="font-weight: bold;">总层数：</td>
+						<td style="width: 29%" id="zcs"></td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; width: 17%;">建筑面积：</td>
+						<td style="width: 29%" id="jzmj"></td>
+						<td style="font-weight: bold;">专有建筑面积：</td>
+						<td style="width: 29%" id="zyjzmj"></td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; width: 17%;">分摊建筑面积：</td>
+						<td style="width: 29%" id="ftjzmj"></td>
+						<td style="font-weight: bold; width: 17%;">竣工日期：</td>
+						<td style="width: 29%" id="jgsj"></td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; width: 17%;">不动产权证号：</td>
+						<td style="width: 29%" id="bdczh"></td>
+						<td style="font-weight: bold; width: 17%;">登记日期：</td>
+						<td style="width: 29%" id="djsj"></td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; width: 17%;">房屋结构：</td>
+						<td style="width: 29%" id="fwjg"></td>
+						<td style="font-weight: bold; width: 17%;">附记：</td>
+						<td style="width: 29%" id="fj"></td>
+					</tr>
+					<tr id="jfje" style="display:none;">
+						<td style="font-weight: bold; width: 17%;">买方收税金额：</td>
+						<td style="width: 29%;" bgcolor="#8EE5EE" id="jfjess" ></td>
+						<td style="font-weight: bold; width: 17%;">卖方收税金额：</td>
+						<td style="width: 29%;" bgcolor="#8EE5EE" id="sjfjess" ></td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+		<!-- 详细信息----------住宅---------end -->
+		<!-- -----------权利人------------- start-->
+		<div class="tableS" id="qlrxx">
+			<div id="top_top" align="center">
+				<label id="srf" class="tit">权
+					利 人 详 情 (买 方)</label>
+			</div>
+			<div id="top">
+				<table border="1" id="tableBodyQlr" style="width: 100%; height: 100%;">
+				
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- -----------权利人------------- end-->
+		<!-- -----------义务人------------- start-->
+		<div class="tableS" id="ywrxx">
+			<div id="top_top" align="center">
+				<label id="srf" class="tit">义
+					务 人 详 情 (卖 方)</label>
+			</div>
+			<div id="top">
+				<table border="1" id="tabYwr" style="width: 100%; height: 100%;">
+					<!-- display: none; -->
+					<tbody id="tableBodyYwr" style="width: 95%; height: 100%">
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+<!-- -----------附件------------- end-->
+<div class="tableS" id="ywrxx">
+		<div id="top_top" align="center">          
+		     <label id ="srf" class="tit">附 件 详 情</label> 
+		</div>	
+		<div id="top" >
+		<table id="mytab1" style="width:100%;" class="table">
+			<thead>
+				<tr>
+					<th>序号</th>
+					<th>业务号</th>
+					<th>附件名称</th>
+					<th>附件类型</th>
+				</tr>
+			</thead>
+			<tbody id="tbodyFJ" align="center">
+				<tr th:each="file, iter : ${fjlist}">
+					<td th:text="${iter.count}"></td>
+					<td th:text="${file.ywh}"></td>
+					<td th:text="${file.filePath}"></td>
+					<td><a id="test" style="color:blue" onclick="ckfj(this);">查看附件</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>	
+<!-- -----------附件------------- end-->
+</div>
+<!-- -----------附件------------- end-->
+
+</div>
+<!-- 查询 -->   
+<script type="text/javascript" th:inline="javascript">
+$("#jfje").hide();
+var qlrList = [[${qlrList}]];
+var ywrList = [[${ywrList}]];
+var qsxxList = [[${qsxxList}]];
+var fjlist = [[${fjlist}]];
+window.onload=function(){
+	if(qsxxList.length>0){
+		 $(qsxxList).each(function (i) {
+			 var mfje = this.mfje;
+			 var reg = /^\s*$/;
+			 if(mfje != null && mfje != undefined && !reg.test(mfje)){
+				 $("#jfje").show();
+				 $("#mai").hide();
+				 $("#tsButton").hide();
+				 $('#jfjess').text(mfje+"元");
+			 }
+			 var smfje = this.smfje;
+			 if(smfje != null && smfje != undefined && !reg.test(smfje)){
+				 $("#spansmfje").hide();
+				 $("#mai").hide();
+				 $('#sjfjess').text(smfje+"元");
+			 }
+			 $('#ywh').text(this.ywh);
+			 $('#qllx').text(this.qllx);
+			 $('#djyy').text(this.djyy);
+			 $('#tdsyqr').text(this.tdsyqr);
+			 $('#dytdmj').text(this.dytdmj);
+			 $('#fttdmj').text(this.fttdmj);
+			 $('#tdsyqssj').text(this.tdsyqssj);
+			 $('#tdsyjssj').text(this.tdsyjssj);
+			 $('#fdcjyjg').text(this.fdcjyjg);
+			 $('#ghyt').text(this.ghyt);
+			 $('#fwxz').text(this.fwxz);
+			 $('#fwjg').text(this.fwjg);
+			 $('#szc').text(this.szc);
+			 $('#zcs').text(this.zcs);
+			 $('#jzmj').text(this.jzmj);
+			 $('#zyjzmj').text(this.zyjzmj);
+			 $('#ftjzmj').text(this.ftjzmj);
+			 $('#jgsj').text(this.jgsj);
+			 $('#bdczh').text(this.bdczh);
+			 $('#djsj').text(this.djsj);
+			 $('#fj').text(this.fj);
+		 })
+					if(qlrList.length>0){
+							var htmladdQlrxx=""; 
+							$(qlrList).each(function (i) {
+								htmladdQlrxx +='<tr>';
+								htmladdQlrxx +='<td style="font-weight: bold;font-size:16px;" align="right">业务号</td>';
+								htmladdQlrxx +='<td colspan="2" align="left"><span type="text" name="qlrywh" id="qlrywh">'+this.qlrywh+'</span></td>';
+								htmladdQlrxx +='<td style="font-weight: bold;font-size:16px;" align="right">不动产权证号</td>';
+								htmladdQlrxx +='<td colspan="2" align="left"><span type="text" name="qlrbdcqzh" id="qlrbdcqzh">'+this.qlrbdcqzh+'</span></td>';
+								htmladdQlrxx +='<td style="font-weight: bold;font-size:16px;" align="right">权利人名称</td>';
+								htmladdQlrxx +='<td colspan="2" align="left"><span type="text" name="qlr" id="qlr">'+this.qlr+'</span></td>';
+								htmladdQlrxx +='</tr>';
+								htmladdQlrxx +='<tr>';
+								htmladdQlrxx +='<td style="font-weight: bold;font-size:16px;" align="right">证件种类</td>';
+								htmladdQlrxx +='<td colspan="2" align="left"><span type="text" name="zjzl" id="zjzl">'+this.zjzl+'</span></td>';
+								htmladdQlrxx +='<td style="font-weight: bold;font-size:16px;" align="right">权利人类型</td>';
+								htmladdQlrxx +='<td colspan="2" align="left"><span type="text" name="qlrlx" id="qlrlx">'+this.qlrlx+'</span></td>';
+								htmladdQlrxx +='<td style="font-weight: bold;font-size:16px;" align="right">权利人证件号</td>';
+								htmladdQlrxx +='<td colspan="2" align="left"><span type="text" name="zjhm" id="zjhm">'+this.zjhm+'</span></td>';
+								htmladdQlrxx +='</tr>';
+								htmladdQlrxx +='<tr>';
+								htmladdQlrxx +='<td style="font-weight: bold;font-size:16px;" align="right">电话</td>';
+								htmladdQlrxx +='<td colspan="3" align="left"><span type="text" name="dh" id="dh">'+this.dh+'</span></td>';
+								htmladdQlrxx +='<td colspan="2" align="left"style="font-weight: bold;font-size:16px;">地址</td>';
+								htmladdQlrxx +='<td colspan="3" align="left"><span type="text" name="dz" id="dz">'+this.dz+'</span></td>';
+								htmladdQlrxx +='</tr>';
+							});
+								$("#tableBodyQlr").append(htmladdQlrxx);
+						}
+						if(ywrList.length>0){
+							var htmladdYwrxx="";
+							$(ywrList).each(function (i) {
+								htmladdYwrxx +='<tr>';
+								htmladdYwrxx +='<td style="font-weight: bold;font-size:16px;" align="right">业务号</td>';
+								htmladdYwrxx +='<td colspan="2" align="left"><span type="text" name="ywrywh" id="ywrywh">'+this.ywrywh+'</span></td>';
+								htmladdYwrxx +='<td style="font-weight: bold;font-size:16px;" align="right">不动产权证号</td>';
+								htmladdYwrxx +='<td colspan="2" align="left"><span type="text" name="ywrbdcqzh" id="ywrbdcqzh">'+this.ywrbdcqzh+'</span></td>';
+								htmladdYwrxx +='<td style="font-weight: bold;font-size:16px;" align="right">义务人名称</td>';
+								htmladdYwrxx +='<td colspan="2" align="left"><span type="text" name="ywrqlr" id="ywrqlr">'+this.ywrqlr+'</span></td>';
+								htmladdYwrxx +='</tr>';
+								htmladdYwrxx +='<tr>';
+								htmladdYwrxx +='<td style="font-weight: bold;font-size:16px;" align="right">证件种类</td>';
+								htmladdYwrxx +='<td colspan="2" align="left"><span type="text" name="ywrzjzl" id="ywrzjzl">'+this.ywrzjzl+'</span></td>';
+								htmladdYwrxx +='<td style="font-weight: bold;font-size:16px;" align="right">义务人类型</td>';
+								htmladdYwrxx +='<td colspan="2" align="left"><span type="text" name="ywrqlrlx" id="ywrqlrlx">'+this.ywrqlrlx+'</span></td>';
+								htmladdYwrxx +='<td style="font-weight: bold;font-size:16px;" align="right">义务人证件号</td>';
+								htmladdYwrxx +='<td colspan="2" align="left"><span type="text" name="ywrzjhm" id="ywrzjhm">'+this.ywrzjhm+'</span></td>';
+								htmladdYwrxx +='</tr>';
+								htmladdYwrxx +='<tr>';
+								htmladdYwrxx +='<td style="font-weight: bold;font-size:16px;" align="right">电话</td>';
+								htmladdYwrxx +='<td colspan="3" align="left"><span type="text" name="ywrdh" id="ywrdh">'+this.ywrdh+'</span></td>';
+								htmladdYwrxx +='<td colspan="2"style="font-weight: bold;font-size:16px;" align="left">地址</td>';
+								htmladdYwrxx +='<td colspan="3" align="left"><span type="text" name="ywrdz" id="ywrdz">'+this.ywrdz+'</span></td>';
+								htmladdYwrxx +='</tr>';
+							});
+							$("#tableBodyYwr").append(htmladdYwrxx);
+						}else{
+						var htmladdYwrxx="";
+							$(qlrList).each(function (i) {
+								htmladdYwrxx +='<tr>';
+								htmladdYwrxx +='<td style="font-weight: bold;font-size:16px;" align="right">业务号</td>';
+								htmladdYwrxx +='<td colspan="2" align="left"><span type="text" name="ywrywh" id="ywrywh">'+this.qlrywh+'</span></td>';
+								htmladdYwrxx +='<td style="font-weight: bold;font-size:16px;" align="right">不动产权证号</td>';
+								htmladdYwrxx +='<td colspan="2" align="left"><span type="text" name="ywrbdcqzh" id="ywrbdcqzh">'+this.qlrbdcqzh+'</span></td>';
+								htmladdYwrxx +='<td style="font-weight: bold;font-size:16px;" align="right">权利人名称</td>';
+								htmladdYwrxx +='<td colspan="2" align="left"><span type="text" name="ywrqlr" id="ywrqlr">'+this.qlr+'</span></td>';
+								htmladdYwrxx +='</tr>';
+								htmladdYwrxx +='<tr>';
+								htmladdYwrxx +='<td style="font-weight: bold;font-size:16px;" align="right">证件种类</td>';
+								htmladdYwrxx +='<td colspan="2" align="left"><span type="text" name="ywrzjzl" id="ywrzjzl">'+this.zjzl+'</span></td>';
+								htmladdYwrxx +='<td style="font-weight: bold;font-size:16px;" align="right">权利人类型</td>';
+								htmladdYwrxx +='<td colspan="2" align="left"><span type="text" name="qlrlx" id="qlrlx">'+this.qlrlx+'</span></td>';
+								htmladdYwrxx +='<td style="font-weight: bold;font-size:16px;" align="right">权利人证件号</td>';
+								htmladdYwrxx +='<td colspan="2" align="left"><span type="text" name="ywrzjhm" id="ywrzjhm">'+this.zjhm+'</span></td>';
+								htmladdYwrxx +='</tr>';
+								htmladdYwrxx +='<tr>';
+								htmladdYwrxx +='<td style="font-weight: bold;font-size:16px;" align="right">电话</td>';
+								htmladdYwrxx +='<td colspan="3" align="left"><span type="text" name="ywrdh" id="ywrdh">'+this.dh+'</span></td>';
+								htmladdYwrxx +='<td colspan="2"style="font-weight: bold;font-size:16px;" align="left">地址</td>';
+								htmladdYwrxx +='<td colspan="3" align="left"><span type="text" name="ywrdz" id="ywrdz">'+this.dz+'</span></td>';
+								htmladdYwrxx +='</tr>';
+							});
+							$("#tableBodyYwr").append(htmladdYwrxx);
+						}
+		if(fjlist.length>0){
+			$("#tbodyFJ").empty();
+			$(fjlist).each(function (i) {
+				$("#tbodyFJ").append('<tr><td>'+(i+1)+ '</td><td>'+ this.ywh+ '</td><td>'+ this.filePath+ '</td><td>'+ '<a id="test" style="color:blue" onclick="ckfj(this);">查看附件</a></td></tr>');
+			})
+		}
+	}
+}
+function bc(){
+    	
+    	var ywh = $('#ywh').text();
+    	var mfje = document.getElementById("mfje").value;
+    	var smfje = document.getElementById("smfje").value;
+    	if(mfje == ""){
+			layer.msg("请填写买方收费金额",{time:1000});
+			return;
+		}
+	   	$.ajax({
+				type : "post",
+				dataType: "json",
+	   			url : "/admin/system/shUpadte/updateMfje",
+	   			data : "&ywh=" + ywh+"&mfje="+mfje+"&smfje="+smfje,
+	  			success : function(data) {
+	  				var msg = data.msg;
+ 	  				if(msg == true){
+	  					layer.msg("保存成功",{time:1000});
+	  					$("#tsButton").hide();
+	  					$("#mai").hide();
+	  					$("#smfButton").hide();
+	  					location.reload();
+	  				}else{
+	  					layer.msg("保存失败,请联系管理员",{time:1000});
+	  				}
+	  			}
+	  	});
+}
+function ckfj(obj){
+	var e =  obj.parentNode.previousElementSibling.innerText;
+	var ywh =  obj.parentNode.previousElementSibling.previousElementSibling.innerText;
+	layer.open({
+		  type: 2,
+		  title: ['附件详情','font-size: 20px;color:#44ACB6;'],
+		  shadeClose: true,
+		  shade: 0.8,
+		  area: ['100%', '100%'],
+		  content: "/fjck?filepath=" + encodeURI(encodeURI(e)) + "&slbh=" + ywh,
+	}); 
+}
+</script>
+</body>

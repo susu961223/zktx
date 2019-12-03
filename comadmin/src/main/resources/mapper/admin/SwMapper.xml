@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoshu.admin.oracle.mapper.SwMapper">
+    <select id="selectSwAllList" parameterType="com.xiaoshu.admin.model.Bdcquery"
+		resultType="com.xiaoshu.admin.model.Bdcquery">
+	SELECT * FROM (SELECT A.*, ROWNUM RN FROM (SELECT ywh,nvl(qlr,' ') as qlr,nvl(zjh,' ') as zjh,nvl(bdczh,' ') as bdczh,nvl(zl,' ') as zl,nvl(fwyt,' ') as fwyt,queryrq FROM BDC_QUERY order by ywh desc) A WHERE ROWNUM &lt;= #{length})
+		<where>
+			RN &gt;= #{start}
+			<if test="ywh !=null and ywh !=''">
+				and ywh like '%'||#{ywh}||'%'
+			</if>
+		</where>
+
+	</select>
+	<select id="findCountSwAllList" parameterType="com.xiaoshu.admin.model.Bdcquery"
+		resultType="java.lang.Integer">
+		select count(*)
+		from BDC_QUERY
+		<where>
+			<if test="ywh !=null and ywh !=''">
+				ywh like '%'||#{ywh}||'%'
+			</if>
+		</where>
+	</select>
+	<select id="selectSwAllListByUser" parameterType="com.xiaoshu.admin.model.Bdcquery"
+		resultType="com.xiaoshu.admin.model.Bdcquery">
+	SELECT * FROM (SELECT A.*, ROWNUM RN FROM (SELECT  ywh,nvl(qlr,' ') as qlr,nvl(zjh,' ') as zjh,nvl(bdczh,' ') as bdczh,nvl(zl,' ') as zl,nvl(fwyt,' ') as fwyt,queryrq,querymc FROM BDC_QUERY where swblr = #{swblr} order by ywh desc) A WHERE ROWNUM &lt;= #{length})
+		<where>
+			RN &gt;= #{start}
+			<if test="ywh !=null and ywh !=''">
+				and ywh like '%'||#{ywh}||'%'
+			</if>
+		</where>
+
+	</select>
+	<select id="findCountSwAllListByUser" parameterType="com.xiaoshu.admin.model.Bdcquery"
+		resultType="java.lang.Integer">
+		select count(*)
+		from BDC_QUERY
+		<where>
+			swblr = #{swblr}
+			<if test="ywh !=null and ywh !=''">
+				and ywh like '%'||#{ywh}||'%'
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectSwList" parameterType="com.xiaoshu.admin.model.Bdcquery" resultType="com.xiaoshu.admin.model.Bdcquery">
+		select t.ywh,t.qlr,t.zjh,t.bdczh,t.dyzt,t.cfzt,t.querymc,t.queryrq,d.bdcdyh,d.zl,d.yt fwyt ,d.mj fwmj,t.ywlx,t.jfje
+ 		from bdc_query t,bdc_dhgl d  
+		<where>
+			t.bdczh=d.bdczh
+			<if test="ywh !=null and ywh !=''">
+				 and t.ywh = #{ywh}
+			</if>
+		</where>
+	</select>
+</mapper>
